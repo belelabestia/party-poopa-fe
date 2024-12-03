@@ -22,7 +22,11 @@ export const Login = () => {
     if (typeof username !== 'string' || typeof password !== 'string') throw err.make('invalid form data');
 
     const error = await auth.login({ username, password });
-    if (error) return;
+
+    if (error) {
+      alert('Login failed; check your credentials.');
+      return;
+    }
 
     nav('/');
   };
@@ -32,7 +36,7 @@ export const Login = () => {
       <form onSubmit={onSubmit}>
         <h2>Login</h2>
         <label>
-          <div>Username</div>
+          Username
           <input type='text' id='username' name='username' />
         </label>
         <label>

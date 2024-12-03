@@ -43,15 +43,15 @@ export const Register = () => {
       <form onSubmit={onSubmit}>
         <h2>Register</h2>
         <label>
-          <div>Username</div>
+          Username
           <input type='text' name='username' />
         </label>
         <label>
-          <div>Password</div>
+          Password
           <input type='password' name='password' />
         </label>
         <label>
-          <div>Verify password</div>
+          Verify password
           <input type='password' name='password-check' />
         </label>
         <button type='submit'>Register</button>
