@@ -6,7 +6,7 @@ import './styles.css';
 
 export const Register = () => {
   const nav = useNavigate();
-  
+
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -40,20 +40,20 @@ export const Register = () => {
 
   return (
     <div className='register'>
-      <h2>Register</h2>
       <form onSubmit={onSubmit}>
-        <div className='field'>
-          <label htmlFor='username'>Username</label>
+        <h2>Register</h2>
+        <label>
+          <div>Username</div>
           <input type='text' name='username' />
-        </div>
-        <div className='field'>
-          <label htmlFor='password'>Password</label>
+        </label>
+        <label>
+          <div>Password</div>
           <input type='password' name='password' />
-        </div>
-        <div className='field'>
-          <label htmlFor='password-check'>Verify password</label>
+        </label>
+        <label>
+          <div>Verify password</div>
           <input type='password' name='password-check' />
-        </div>
+        </label>
         <button type='submit'>Register</button>
       </form>
     </div>

@@ -29,20 +29,18 @@ export const Login = () => {
 
   return (
     <div className='login'>
-      <div className="card">
+      <form onSubmit={onSubmit}>
         <h2>Login</h2>
-        <form onSubmit={onSubmit}>
-          <div className='field'>
-            <label htmlFor='username'>Username</label>
-            <input type='text' name='username' />
-          </div>
-          <div className='field'>
-            <label htmlFor='password'>Password</label>
-            <input type='password' name='password' />
-          </div>
-          <button type='submit'>Login</button>
-        </form>
-      </div>
+        <label>
+          <div>Username</div>
+          <input type='text' id='username' name='username' />
+        </label>
+        <label>
+          Password
+          <input type='password' id='password' name='password' />
+        </label>
+        <button type='submit'>Login</button>
+      </form>
     </div>
   )
 };

@@ -22,14 +22,17 @@ html, body, #root {
 form {
   display: flex;
   flex-direction: column;
+  gap: .5rem;
 }
 
 label {
-  display: block;
-  padding: .25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
 }
 
 input {
+  display: block;
   border-radius: .25rem;
   padding: .5rem;
   box-shadow: inset 0 0 .1rem #4c0e72;
@@ -55,8 +58,4 @@ button {
 button:active {
   box-shadow: none;
   font-weight: 400;
-}
-
-.field:focus-within label {
-  font-weight: 500;
 }
