@@ -1,0 +1,13 @@
+.register {
+  height: 100%;
+  justify-items: center;
+  align-content: center;
+}
+
+.register h2 {
+  margin-bottom: 2rem;
+}
+
+.register button {
+  margin-top: 1rem;
+}

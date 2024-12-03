@@ -1,0 +1,102 @@
+import * as err from 'modules/error';
+import { Json } from 'modules/json';
+import { headers } from './common';
+
+type Person = {
+  id: number,
+  data: Json | null
+};
+
+export const getAllPeople = async () => {
+  console.log('fetching all people');
+
+  try {
+    const res = await fetch('be/people', {
+      method: 'GET',
+      headers
+    });
+
+    if (!res.ok) {
+      console.log('fetching all people failed');
+      return err.make('fetching all people failed');
+    }
+
+    const people = await res.json() as Person[];
+    console.log('all people fetched');
+    return { people };
+  }
+  catch (error) {
+    console.error('fetching all people failed', error);
+    return { error: err.coalesce(error) };
+  }
+};
+
+export const addPerson = async (data: Json | null) => {
+  console.log('adding person');
+
+  try {
+    const res = await fetch('/people', {
+      method: 'POST',
+      headers,
+      body: data ? JSON.stringify(data) : undefined
+    });
+
+    if (!res.ok) {
+      console.log('adding person failed');
+      return err.make('adding person failed');
+    }
+
+    const { id } = await res.json() as { id: number };
+    console.log('adding person succeded');
+    return { id };
+  }
+  catch (error) {
+    console.error('adding person failed', error);
+    return { error: err.coalesce(error) };
+  }
+};
+
+export const updatePerson = async (id: number, data: Json | null) => {
+  console.log('updating person');
+
+  try {
+    const res = await fetch(`api/people/${id}`, {
+      method: 'PUT',
+      headers,
+      body: data ? JSON.stringify(data) : undefined
+    });
+
+    if (!res.ok) {
+      console.log('updaing person failed');
+      return err.make('updating person failed');
+    }
+
+    console.log('updating person succeded');
+  }
+  catch (error) {
+    console.error('updating person failed', error);
+    return err.coalesce(error);
+  }
+};
+
+export const deletePerson = async (id: number) => {
+  console.log('updating person');
+
+  try {
+    const res = await fetch(`api/people/${id}`, {
+      method: 'DELETE',
+      headers
+    });
+
+    if (!res.ok) {
+      console.log('updating person failed');
+      return err.make('updating person failed');
+    }
+
+    console.log('updating person succeded');
+  }
+  catch (error) {
+    console.error('updating person failed', error);
+    return err.coalesce(error);
+  }
+};
