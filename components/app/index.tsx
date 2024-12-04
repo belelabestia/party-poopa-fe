@@ -1,6 +1,7 @@
 import { Register } from "components/register";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import './styles.css';
 
 export const App = () => {
   const nav = useNavigate();
@@ -19,5 +20,10 @@ export const App = () => {
 
   useEffect(onStartup, []);
 
-  return <Register />;
+  return (
+    <div className="app">
+      <div className="bar">Lala</div>
+      <Register />
+    </div>
+  );
 };
