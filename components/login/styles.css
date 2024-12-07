@@ -1,14 +1,17 @@
 .login {
   height: 100%;
-  justify-items: center;
   align-content: center;
+  padding: 1rem;
+  overflow: auto;
 }
 
 .login form {
+  width: clamp(12rem, 100%, 16rem);
   padding: 1rem;
   border-radius: .5rem;
-  background-color: #efffe4;
-  box-shadow: 0 0 .25rem 0 #4c0e72;
+  background-color: #f8ffa2;
+  box-shadow: 0 0 .1rem 0 #4c0e72;
+  margin: auto;
 }
 
 .login h2 {

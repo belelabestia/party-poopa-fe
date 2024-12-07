@@ -4,7 +4,7 @@ import { FormEvent } from 'react';
 import { useNavigate } from 'react-router';
 import './styles.css';
 
-export const Register = () => {
+export const CreateAdmin = () => {
   const nav = useNavigate();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {

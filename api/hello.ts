@@ -1,5 +1,4 @@
 import * as err from 'modules/error';
-import { headers } from './common';
 
 export const hello = async () => {
   console.log('saying hello');
@@ -7,7 +6,7 @@ export const hello = async () => {
   try {
     const res = await fetch('be/hello', {
       method: 'GET',
-      headers
+      headers: { 'Content-Type': 'application/json' }
     });
 
     if (!res.ok) {

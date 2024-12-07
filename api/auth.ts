@@ -1,5 +1,4 @@
 import * as err from 'modules/error';
-import { headers } from './common';
 
 export type Admin = { username: string, password: string };
 
@@ -9,7 +8,7 @@ export const register = async (data: Admin) => {
   try {
     const res = await fetch('be/auth/register', {
       method: 'POST',
-      headers,
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
 
@@ -34,7 +33,7 @@ export const login = async (data: Admin) => {
   try {
     const res = await fetch('be/auth/login', {
       method: 'POST',
-      headers,
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
 

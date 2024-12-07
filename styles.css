@@ -16,7 +16,7 @@ html, button, input {
 html, body, #root {
   margin: 0;
   height: 100%;
-  background-color: #9a8eff;
+  background-color: #e0ddff;
 }
 
 form {
@@ -52,12 +52,13 @@ input:focus {
 
 button {
   border: none;
-  border-radius: .25rem;
+  border-radius: .5rem;
   padding: .5rem;
   background-color: #4c0e72;
   box-shadow: 0 0 .1rem #9d55cb;
   font-weight: 600;
   color: #eefffe;
+  cursor: pointer;
 }
 
 button:active {

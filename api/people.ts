@@ -1,6 +1,5 @@
 import * as err from 'modules/error';
 import { Json } from 'modules/json';
-import { headers } from './common';
 
 type Person = {
   id: number,
@@ -13,7 +12,7 @@ export const getAllPeople = async () => {
   try {
     const res = await fetch('be/people', {
       method: 'GET',
-      headers
+      headers: { 'Content-Type': 'application/json' }
     });
 
     if (!res.ok) {
@@ -37,7 +36,7 @@ export const addPerson = async (data: Json | null) => {
   try {
     const res = await fetch('/people', {
       method: 'POST',
-      headers,
+      headers: { 'Content-Type': 'application/json' },
       body: data ? JSON.stringify(data) : undefined
     });
 
@@ -62,7 +61,7 @@ export const updatePerson = async (id: number, data: Json | null) => {
   try {
     const res = await fetch(`api/people/${id}`, {
       method: 'PUT',
-      headers,
+      headers: { 'Content-Type': 'application/json' },
       body: data ? JSON.stringify(data) : undefined
     });
 
@@ -85,7 +84,7 @@ export const deletePerson = async (id: number) => {
   try {
     const res = await fetch(`api/people/${id}`, {
       method: 'DELETE',
-      headers
+      headers: { 'Content-Type': 'application/json' }
     });
 
     if (!res.ok) {
