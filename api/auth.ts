@@ -2,31 +2,6 @@ import * as err from 'modules/error';
 
 export type Admin = { username: string, password: string };
 
-export const register = async (data: Admin) => {
-  console.log('calling register endpoint');
-
-  try {
-    const res = await fetch('be/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-
-    if (!res.ok) {
-      console.log('register request failed');
-      return { error: err.make('register request failed')};
-    }
-
-    const payload = await res.json();
-    console.log('register request succeded');
-    return { payload };
-  }
-  catch (error) {
-    console.error('register request failed', error);
-    return { error: err.coalesce(error) };
-  }
-};
-
 export const login = async (data: Admin) => {
   console.log('calling login endpoint');
 
@@ -44,6 +19,26 @@ export const login = async (data: Admin) => {
   }
   catch (error) {
     console.error('login request failed', error);
+    return err.coalesce(error);
+  }
+};
+
+export const logout = async () => {
+  console.log('calling logout endpoint');
+
+  try {
+    const res = await fetch('be/auth/logout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (!res.ok) {
+      console.log('logout request failed');
+      return err.make('logout request failed');
+    }
+  }
+  catch (error) {
+    console.error('logout request failed', error);
     return err.coalesce(error);
   }
 };

@@ -1,11 +1,18 @@
 import * as auth from 'api/auth';
 import * as err from 'modules/error';
-import { FormEvent } from 'react';
+import { FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import './styles.css';
 
 export const Login = () => {
   const nav = useNavigate();
+
+  const onStartup = () => {
+    if (document.cookie) {
+      console.log('user alreagy logged in; navigating to app');
+      nav('/');
+    }
+  };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,6 +37,8 @@ export const Login = () => {
 
     nav('/');
   };
+
+  useEffect(onStartup, []);
 
   return (
     <div className='login'>

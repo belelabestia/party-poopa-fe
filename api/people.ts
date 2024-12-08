@@ -46,7 +46,7 @@ export const addPerson = async (data: Json | null) => {
     }
 
     const { id } = await res.json() as { id: number };
-    console.log('adding person succeded');
+    console.log('adding person succeeded');
     return { id };
   }
   catch (error) {
@@ -70,7 +70,7 @@ export const updatePerson = async (id: number, data: Json | null) => {
       return err.make('updating person failed');
     }
 
-    console.log('updating person succeded');
+    console.log('updating person succeeded');
   }
   catch (error) {
     console.error('updating person failed', error);
@@ -92,7 +92,7 @@ export const deletePerson = async (id: number) => {
       return err.make('updating person failed');
     }
 
-    console.log('updating person succeded');
+    console.log('updating person succeeded');
   }
   catch (error) {
     console.error('updating person failed', error);

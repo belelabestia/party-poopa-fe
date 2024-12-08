@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import * as auth from 'api/auth';
 import './styles.css';
+import { AdminsIndex } from "components/admin/admins-index";
 
 type Admin = { username: string };
 
@@ -25,10 +26,11 @@ export const App = () => {
 
     setUsername(payload.username);
     console.log('user logged in', payload);
-  }
+  };
 
   const logout = async () => {
     await auth.logout();
+    nav('/login');
   };
 
   useEffect(onStartup, []);
@@ -36,9 +38,10 @@ export const App = () => {
   return (
     <div className="app">
       <div className="welcome">
-        <h2>Welcome, {username}!</h2>
+        <h2>Welcome, {username}! fpaijfspajsfoajsaopjaspasjdopsadjposjsapoj</h2>
         <button type="button" onClick={logout}>Logout</button>
       </div>
+      <AdminsIndex />
     </div>
   );
 };

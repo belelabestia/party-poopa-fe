@@ -1,6 +1,21 @@
+.app {
+  height: 100%;
+  overflow: auto;
+}
+
 .app .welcome {
-  text-align: center;
   padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app .welcome h2 {
+  font-size: 1.25rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
 }
 
 .app .welcome button {

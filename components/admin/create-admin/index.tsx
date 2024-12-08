@@ -1,7 +1,7 @@
-import * as auth from 'api/auth';
 import * as err from 'modules/error';
 import { FormEvent } from 'react';
 import { useNavigate } from 'react-router';
+import { createAdmin } from 'api/admin';
 import './styles.css';
 
 export const CreateAdmin = () => {
@@ -31,7 +31,7 @@ export const CreateAdmin = () => {
       return;
     }
 
-    const { error } = await auth.register({ username, password });
+    const { error } = await createAdmin({ username, password });
     if (error) return;
 
     console.log('navigating to login');
@@ -39,9 +39,9 @@ export const CreateAdmin = () => {
   };
 
   return (
-    <div className='register'>
+    <div className='create-admin'>
       <form onSubmit={onSubmit}>
-        <h2>Register</h2>
+        <h2>Create admin</h2>
         <label>
           Username
           <input type='text' name='username' />
@@ -54,7 +54,7 @@ export const CreateAdmin = () => {
           Verify password
           <input type='password' name='password-check' />
         </label>
-        <button type='submit'>Register</button>
+        <button type='submit'>Create admin</button>
       </form>
     </div>
   );
