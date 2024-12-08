@@ -43,8 +43,7 @@ export const App = () => {
         <button type="button" onClick={logout}>Logout</button>
       </div>
       <main>
-        <Loading ></Loading>
-        {/* <AdminsIndex /> */}
+        <AdminsIndex />
       </main>
     </div>
   );
