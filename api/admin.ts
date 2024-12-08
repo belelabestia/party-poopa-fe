@@ -1,7 +1,7 @@
 import * as err from 'modules/error';
 
 type CreateBody = { username: string, password: string };
-type AdminsResult = { id: number, username: string };
+export type AdminsResult = { id: number, username: string }[];
 
 export const getAllAdmins = async () => {
   console.log('calling get all admins endpoint');

@@ -1,8 +1,8 @@
-import { getAllAdmins } from 'api/admin';
+import { AdminsResult, getAllAdmins } from 'api/admin';
 import { useEffect, useState } from 'react';
 
 export const AdminsIndex = () => {
-  const [admins, setAdmins] = useState<unknown[]>();
+  const [admins, setAdmins] = useState<AdminsResult>();
 
   const onStartup = async () => {
     const { error, payload } = await getAllAdmins();

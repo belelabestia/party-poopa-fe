@@ -1,23 +1,32 @@
 .app {
   height: 100%;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-.app .welcome {
+.app .bar {
   padding: 0.5rem;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
+  background-color: #f8ffa2;
+  box-shadow: 0 0 .25rem 0 #4c0e72;
 }
 
-.app .welcome h2 {
+.app .bar h2 {
   font-size: 1.25rem;
   white-space: nowrap;
   text-overflow: ellipsis;
   flex-shrink: 1;
 }
 
-.app .welcome button {
+.app .bar button {
   width: 8rem;
+}
+
+.app main {
+  padding: .5rem;
+  flex-grow: 1;
 }
