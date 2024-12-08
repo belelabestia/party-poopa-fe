@@ -1,4 +1,5 @@
 import * as err from 'modules/error';
+import * as date from 'modules/date';
 
 type CreateBody = { username: string, password: string };
 export type AdminsResult = { id: number, username: string }[];
@@ -12,14 +13,20 @@ export const getAllAdmins = async () => {
       headers: { 'Content-Type': 'application/json' }
     });
 
+    if (res.status === 401) {
+      console.log('user unauthenticated');
+      document.cookie = `token=; expires=${date.zero}; path=/`;
+      return { unauthenticated: true };
+    }
+
     if (!res.ok) {
       console.log('get all admins request failed');
       return { error: err.make('get all admins request failed') };
     }
 
-    const payload = await res.json() as AdminsResult;
+    const admins = await res.json() as AdminsResult;
     console.log('get all admins request succeeded');
-    return { payload };
+    return { admins };
   }
   catch (error) {
     console.error('get all admins request failed', error);
@@ -37,14 +44,20 @@ export const createAdmin = async (data: CreateBody) => {
       body: JSON.stringify(data)
     });
 
+    if (res.status === 401) {
+      console.log('user unauthenticated');
+      document.cookie = '';
+      return { unauthenticated: true };
+    }
+
     if (!res.ok) {
       console.log('create admin request failed');
       return { error: err.make('create admin request failed') };
     }
 
-    const payload = await res.json();
+    const admin = await res.json() as { id: number };
     console.log('create admin request succeeded');
-    return { payload };
+    return { admin };
   }
   catch (error) {
     console.error('create admin request failed', error);
@@ -61,14 +74,20 @@ export const updateAdmin = async () => {
       headers: { 'Content-Type': 'application/json' }
     });
 
+    if (res.status === 401) {
+      console.log('user unauthenticated');
+      document.cookie = '';
+      return { unauthenticated: true };
+    }
+
     if (!res.ok) {
       console.log('update admin request failed');
-      return err.make('update admin request failed');
+      return { error: err.make('update admin request failed') };
     }
   }
   catch (error) {
     console.error('update admin request failed', error);
-    return err.coalesce(error);
+    return { error: err.coalesce(error) };
   }
 };
 
@@ -81,13 +100,19 @@ export const deleteAdmin = async () => {
       headers: { 'Content-Type': 'application/json' }
     });
 
+    if (res.status === 401) {
+      console.log('user unauthenticated');
+      document.cookie = '';
+      return { unauthenticated: true };
+    }
+
     if (!res.ok) {
       console.log('delete admin request failed');
-      return err.make('delete admin request failed');
+      return { error: err.make('delete admin request failed') };
     }
   }
   catch (error) {
     console.error('delete admin request failed', error);
-    return err.coalesce(error);
+    return { error: err.coalesce(error) };
   }
 };

@@ -15,9 +15,15 @@ export const getAllPeople = async () => {
       headers: { 'Content-Type': 'application/json' }
     });
 
+    if (res.status === 401) {
+      console.log('user unauthenticated');
+      document.cookie = '';
+      return { unauthenticated: true };
+    }
+
     if (!res.ok) {
       console.log('fetching all people failed');
-      return err.make('fetching all people failed');
+      return { error: err.make('fetching all people failed') };
     }
 
     const people = await res.json() as Person[];
@@ -39,6 +45,12 @@ export const addPerson = async (data: Json | null) => {
       headers: { 'Content-Type': 'application/json' },
       body: data ? JSON.stringify(data) : undefined
     });
+
+    if (res.status === 401) {
+      console.log('user unauthenticated');
+      document.cookie = '';
+      return { unauthenticated: true };
+    }
 
     if (!res.ok) {
       console.log('adding person failed');
@@ -65,6 +77,12 @@ export const updatePerson = async (id: number, data: Json | null) => {
       body: data ? JSON.stringify(data) : undefined
     });
 
+    if (res.status === 401) {
+      console.log('user unauthenticated');
+      document.cookie = '';
+      return { unauthenticated: true };
+    }
+
     if (!res.ok) {
       console.log('updaing person failed');
       return err.make('updating person failed');
@@ -86,6 +104,12 @@ export const deletePerson = async (id: number) => {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }
     });
+
+    if (res.status === 401) {
+      console.log('user unauthenticated');
+      document.cookie = '';
+      return { unauthenticated: true };
+    }
 
     if (!res.ok) {
       console.log('updating person failed');

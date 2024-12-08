@@ -32,6 +32,12 @@ export const logout = async () => {
       headers: { 'Content-Type': 'application/json' }
     });
 
+    if (res.status === 401) {
+      console.log('user already unauthenticated');
+      document.cookie = '';
+      return;
+    };
+
     if (!res.ok) {
       console.log('logout request failed');
       return err.make('logout request failed');
