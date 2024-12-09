@@ -1,20 +1,18 @@
 import * as err from 'modules/error';
+import { fetch } from 'modules/http';
 
 export const hello = async () => {
   console.log('saying hello');
 
   try {
-    const res = await fetch('be/hello', {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    });
+    const { error, response } = await fetch('be/hello', 'GET');
 
-    if (!res.ok) {
+    if (error) {
       console.log('saying hello failed');
       return { error: err.make('saying hello failed') };
     }
 
-    const answer = await res.json();
+    const answer = await response!.json();
     console.log('saying hello succede');
     return { answer };
   }

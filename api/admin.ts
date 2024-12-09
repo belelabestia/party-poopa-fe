@@ -1,30 +1,23 @@
 import * as err from 'modules/error';
-import * as date from 'modules/date';
+import { fetch } from 'modules/http';
 
 type CreateBody = { username: string, password: string };
-export type AdminsResult = { id: number, username: string }[];
+type UpdateBody = { id: number, username: string, password: string };
 
 export const getAllAdmins = async () => {
   console.log('calling get all admins endpoint');
 
   try {
-    const res = await fetch('be/admin', {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    });
+    const { error, unauthorized, response } = await fetch('be/admin', 'GET');
 
-    if (res.status === 401) {
-      console.log('user unauthenticated');
-      document.cookie = `token=; expires=${date.zero}; path=/`;
-      return { unauthenticated: true };
-    }
+    if (unauthorized) return { unauthorized: true };
 
-    if (!res.ok) {
+    if (error) {
       console.log('get all admins request failed');
       return { error: err.make('get all admins request failed') };
     }
 
-    const admins = await res.json() as AdminsResult;
+    const admins = await response!.json() as { id: number, username: string }[];
     console.log('get all admins request succeeded');
     return { admins };
   }
@@ -34,28 +27,20 @@ export const getAllAdmins = async () => {
   }
 };
 
-export const createAdmin = async (data: CreateBody) => {
+export const createAdmin = async (body: CreateBody) => {
   console.log('calling create admin endpoint');
 
   try {
-    const res = await fetch('be/admin', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
+    const { error, unauthorized, response } = await fetch('be/admin', 'POST', body);
 
-    if (res.status === 401) {
-      console.log('user unauthenticated');
-      document.cookie = '';
-      return { unauthenticated: true };
-    }
+    if (unauthorized) return { unauthenticated: true };
 
-    if (!res.ok) {
+    if (error) {
       console.log('create admin request failed');
       return { error: err.make('create admin request failed') };
     }
 
-    const admin = await res.json() as { id: number };
+    const admin = await response!.json() as { id: number };
     console.log('create admin request succeeded');
     return { admin };
   }
@@ -65,22 +50,15 @@ export const createAdmin = async (data: CreateBody) => {
   }
 };
 
-export const updateAdmin = async () => {
+export const updateAdmin = async (body: UpdateBody) => {
   console.log('calling update admin endpoint');
 
   try {
-    const res = await fetch('be/admin', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' }
-    });
+    const { unauthorized, error } = await fetch(`be/admin/${body.id}`, 'PUT', body);
 
-    if (res.status === 401) {
-      console.log('user unauthenticated');
-      document.cookie = '';
-      return { unauthenticated: true };
-    }
+    if (unauthorized) return { unauthenticated: true };
 
-    if (!res.ok) {
+    if (error) {
       console.log('update admin request failed');
       return { error: err.make('update admin request failed') };
     }
@@ -91,22 +69,15 @@ export const updateAdmin = async () => {
   }
 };
 
-export const deleteAdmin = async () => {
+export const deleteAdmin = async (id: number) => {
   console.log('calling delete admin endpoint');
 
   try {
-    const res = await fetch('be/admin', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' }
-    });
+    const { unauthorized, error } = await fetch(`be/admin/${id}`, 'DELETE');
 
-    if (res.status === 401) {
-      console.log('user unauthenticated');
-      document.cookie = '';
-      return { unauthenticated: true };
-    }
+    if (unauthorized) return { unauthenticated: true };
 
-    if (!res.ok) {
+    if (error) {
       console.log('delete admin request failed');
       return { error: err.make('delete admin request failed') };
     }
