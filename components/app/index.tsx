@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import * as auth from 'api/auth';
+import { AdminsIndex } from 'components/admin/admins-index';
 import './styles.css';
-import { AdminsIndex } from "components/admin/admins-index";
-import { Loading } from 'components/loading';
 
 type Admin = { username: string };
 
@@ -37,10 +36,10 @@ export const App = () => {
   useEffect(onStartup, []);
 
   return (
-    <div className="app">
-      <div className="bar">
+    <div className='app'>
+      <div className='bar'>
         <h2>Welcome, {username}!</h2>
-        <button type="button" onClick={logout}>Logout</button>
+        <button type='button' onClick={logout}>Logout</button>
       </div>
       <main>
         <AdminsIndex />

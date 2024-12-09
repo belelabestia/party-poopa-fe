@@ -7,7 +7,7 @@ import './styles.css';
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<App />} />
+      <Route path='/' element={<App />} />
       <Route path='/login' element={<Login />} />
     </Routes>
   </BrowserRouter>
