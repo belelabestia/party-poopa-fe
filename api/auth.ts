@@ -6,7 +6,7 @@ export const login = async (data: Admin) => {
   console.log('calling login endpoint');
 
   try {
-    const res = await fetch('be/auth/login', {
+    const res = await fetch('/be/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -27,7 +27,7 @@ export const logout = async () => {
   console.log('calling logout endpoint');
 
   try {
-    const res = await fetch('be/auth/logout', {
+    const res = await fetch('/be/auth/logout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' }
     });

@@ -5,7 +5,7 @@ export const hello = async () => {
   console.log('saying hello');
 
   try {
-    const { error, response } = await fetch('be/hello', 'GET');
+    const { error, response } = await fetch('/be/hello', 'GET');
 
     if (error) {
       console.log('saying hello failed');

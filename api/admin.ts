@@ -2,13 +2,12 @@ import * as err from 'modules/error';
 import { fetch } from 'modules/http';
 
 type CreateBody = { username: string, password: string };
-type UpdateBody = { id: number, username: string, password: string };
 
 export const getAllAdmins = async () => {
   console.log('calling get all admins endpoint');
 
   try {
-    const { error, unauthorized, response } = await fetch('be/admin', 'GET');
+    const { error, unauthorized, response } = await fetch('/be/admin', 'GET');
 
     if (unauthorized) return { unauthorized: true };
 
@@ -31,7 +30,7 @@ export const createAdmin = async (body: CreateBody) => {
   console.log('calling create admin endpoint');
 
   try {
-    const { error, unauthorized, response } = await fetch('be/admin', 'POST', body);
+    const { error, unauthorized, response } = await fetch('/be/admin', 'POST', body);
 
     if (unauthorized) return { unauthenticated: true };
 
@@ -50,21 +49,40 @@ export const createAdmin = async (body: CreateBody) => {
   }
 };
 
-export const updateAdmin = async (body: UpdateBody) => {
-  console.log('calling update admin endpoint');
+export const updateAdminUsername = async (body: { id: number, username: string }) => {
+  console.log('calling update admin username endpoint');
 
   try {
-    const { unauthorized, error } = await fetch(`be/admin/${body.id}`, 'PUT', body);
+    const { unauthorized, error } = await fetch(`/be/admin/${body.id}/username`, 'PUT', body);
 
-    if (unauthorized) return { unauthenticated: true };
+    if (unauthorized) return { unauthorized: true };
 
     if (error) {
-      console.log('update admin request failed');
-      return { error: err.make('update admin request failed') };
+      console.log('update admin username request failed');
+      return { error: err.make('update admin username request failed') };
     }
   }
   catch (error) {
-    console.error('update admin request failed', error);
+    console.error('update admin username request failed', error);
+    return { error: err.coalesce(error) };
+  }
+};
+
+export const updateAdminPassword = async (body: { id: number, password: string }) => {
+  console.log('calling update admin password endpoint');
+
+  try {
+    const { unauthorized, error } = await fetch(`/be/admin/${body.id}/password`, 'PUT', body);
+
+    if (unauthorized) return { unauthorized: true };
+
+    if (error) {
+      console.log('update admin password request failed');
+      return { error: err.make('update admin password request failed') };
+    }
+  }
+  catch (error) {
+    console.error('update admin password request failed', error);
     return { error: err.coalesce(error) };
   }
 };
@@ -73,7 +91,7 @@ export const deleteAdmin = async (id: number) => {
   console.log('calling delete admin endpoint');
 
   try {
-    const { unauthorized, error } = await fetch(`be/admin/${id}`, 'DELETE');
+    const { unauthorized, error } = await fetch(`/be/admin/${id}`, 'DELETE');
 
     if (unauthorized) return { unauthenticated: true };
 

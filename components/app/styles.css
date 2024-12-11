@@ -13,6 +13,13 @@
   gap: 1rem;
   background-color: #f8ffa2;
   box-shadow: 0 0 .25rem 0 #4c0e72;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.app .bar nav {
+  display: flex;
+  gap: .5rem;
 }
 
 .app .bar h2 {
@@ -22,11 +29,25 @@
   flex-shrink: 1;
 }
 
+.app .bar h2 span {
+  background-color: #4c0e72;
+  border-radius: 50%;
+  margin-right: .5rem;
+  padding: .25rem;
+  font-size: 1rem;
+  line-height: 2rem;
+}
+
 .app .bar button {
   width: 8rem;
 }
 
+.app .bar button.icon {
+  background-color: #4c0e72;
+  border-radius: 50%;
+  width: auto;
+}
+
 .app main {
-  padding: 1rem;
   flex-grow: 1;
 }

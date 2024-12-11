@@ -7,14 +7,14 @@ import './styles.css';
 export const Login = () => {
   const nav = useNavigate();
 
-  const onStartup = () => {
+  const init = () => {
     if (document.cookie) {
       console.log('user alreagy logged in; navigating to app');
-      nav('/');
+      nav('/admin');
     }
   };
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
@@ -35,14 +35,14 @@ export const Login = () => {
       return;
     }
 
-    nav('/');
+    nav('/admin');
   };
 
-  useEffect(onStartup, []);
+  useEffect(init, []);
 
   return (
     <div className='login'>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={submit}>
         <h2>Login</h2>
         <label>
           Username

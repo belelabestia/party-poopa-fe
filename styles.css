@@ -34,6 +34,11 @@ form {
   gap: .5rem;
 }
 
+form .error {
+  color: #961600;
+  font-weight: normal;
+}
+
 label {
   display: flex;
   flex-direction: column;

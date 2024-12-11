@@ -1,16 +1,22 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
 import * as auth from 'api/auth';
-import { AdminsIndex } from 'components/admin/admins-index';
+import { createContext, useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router';
 import './styles.css';
 
 type Admin = { username: string };
 
+type AppState = {
+  username?: string,
+  admins?: Admin[]
+};
+
+const AppContext = createContext<AppState>({});
+
 export const App = () => {
   const nav = useNavigate();
-  const [username, setUsername] = useState<string>();
+  const [state, setState] = useState<AppState>({});
 
-  const onStartup = () => {
+  const init = () => {
     console.log('application startup');
 
     if (!document.cookie) {
@@ -24,25 +30,37 @@ export const App = () => {
     const jsonPayload = atob(base64Payload);
     const payload = JSON.parse(jsonPayload) as Admin;
 
-    setUsername(payload.username);
+    setState({ username: payload.username });
     console.log('user logged in', payload);
   };
+
+  const navBack = async () => nav(-1)
+  const navToHome = async () => nav('/admin');
 
   const logout = async () => {
     await auth.logout();
     nav('/login');
   };
 
-  useEffect(onStartup, []);
+  useEffect(init, []);
 
   return (
     <div className='app'>
       <div className='bar'>
-        <h2>Welcome, {username}!</h2>
+        <nav>
+          <button type='button' className='icon' onClick={navBack}>⬅️</button>
+          <button type='button' className='icon' onClick={navToHome}>🏠</button>
+        </nav>
         <button type='button' onClick={logout}>Logout</button>
+        <h2>
+          <span>🧑‍💻</span>
+          {state?.username}
+        </h2>
       </div>
       <main>
-        <AdminsIndex />
+        <AppContext.Provider value={state}>
+          <Outlet />
+        </AppContext.Provider>
       </main>
     </div>
   );

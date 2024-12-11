@@ -7,7 +7,7 @@ import './styles.css';
 export const CreateAdmin = () => {
   const nav = useNavigate();
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
@@ -40,7 +40,7 @@ export const CreateAdmin = () => {
 
   return (
     <div className='create-admin'>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={submit}>
         <h2>Create admin</h2>
         <label>
           Username

@@ -10,11 +10,11 @@ type Admin = {
   username: string;
 };
 
-export const AdminsIndex = () => {
+export const AdminIndex = () => {
   const nav = useNavigate();
   const [admins, setAdmins] = useState<Admin[]>();
 
-  const onStartup = async () => {
+  const init = async () => {
     const [{ error, unauthorized, admins }] = await Promise.all([getAllAdmins(), delay(1000)]);
 
     if (error) return;
@@ -23,21 +23,28 @@ export const AdminsIndex = () => {
       alert('Session has expired, redirecting to login.');
       console.log('navigating to login');
       nav('/login');
+      return;
     }
 
     setAdmins(admins);
   };
 
-  useEffect(() => { onStartup() }, []);
+  useEffect(() => { init() }, []);
 
-  return admins
-    ? admins.map(a => <DisplayAdmin {...a} key={a.id}></DisplayAdmin>)
-    : <Loading />;
+  return (
+    <div className="admin-index">
+      {admins
+        ? admins.map(a => <DisplayAdmin {...a} key={a.id}></DisplayAdmin>)
+        : <Loading />}
+    </div>
+  );
 };
 
 const DisplayAdmin = (admin: Admin) => {
-  const editAdmin = () => {};
-  const deleteAdmin = () => {};
+  const nav = useNavigate();
+
+  const editAdmin = () => nav(`/admin/${admin.id}`, { state: admin });
+  const deleteAdmin = () => { };
 
   return (
     <div className='display-admin'>

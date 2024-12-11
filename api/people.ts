@@ -10,7 +10,7 @@ export const getAllPeople = async () => {
   console.log('fetching all people');
 
   try {
-    const res = await fetch('be/people', {
+    const res = await fetch('/be/people', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     });
