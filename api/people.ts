@@ -22,7 +22,7 @@ export const getAllPeople = async () => {
     }
 
     if (!res.ok) {
-      console.log('fetching all people failed');
+      console.error('fetching all people failed', res.statusText);
       return { error: err.make('fetching all people failed') };
     }
 
@@ -53,8 +53,8 @@ export const addPerson = async (data: Json | null) => {
     }
 
     if (!res.ok) {
-      console.log('adding person failed');
-      return err.make('adding person failed');
+      console.error('adding person failed', res.statusText);
+      return { error: err.make('adding person failed') };
     }
 
     const { id } = await res.json() as { id: number };
@@ -84,15 +84,15 @@ export const updatePerson = async (id: number, data: Json | null) => {
     }
 
     if (!res.ok) {
-      console.log('updaing person failed');
-      return err.make('updating person failed');
+      console.error('updaing person failed', res.statusText);
+      return { error: err.make('updating person failed') };
     }
 
     console.log('updating person succeeded');
   }
   catch (error) {
     console.error('updating person failed', error);
-    return err.coalesce(error);
+    return { error: err.coalesce(error) };
   }
 };
 
@@ -112,14 +112,14 @@ export const deletePerson = async (id: number) => {
     }
 
     if (!res.ok) {
-      console.log('updating person failed');
-      return err.make('updating person failed');
+      console.error('updating person failed', res.statusText);
+      return { error: err.make('updating person failed') };
     }
 
     console.log('updating person succeeded');
   }
   catch (error) {
     console.error('updating person failed', error);
-    return err.coalesce(error);
+    return { error: err.coalesce(error) };
   }
 };

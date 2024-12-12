@@ -12,14 +12,19 @@ export const login = async (data: Admin) => {
       body: JSON.stringify(data)
     });
 
+    if (res.status === 401) {
+      console.log('wrong credentials');
+      return { unauthorized: true };
+    };
+
     if (!res.ok) {
-      console.log('login request failed');
-      return err.make('login request failed');
+      console.error('login request failed', res.statusText);
+      return { error: err.make('login request failed') };
     }
   }
   catch (error) {
     console.error('login request failed', error);
-    return err.coalesce(error);
+    return { error: err.coalesce(error) };
   }
 };
 
@@ -39,7 +44,7 @@ export const logout = async () => {
     };
 
     if (!res.ok) {
-      console.log('logout request failed');
+      console.error('logout request failed', res.statusText);
       return err.make('logout request failed');
     }
   }
