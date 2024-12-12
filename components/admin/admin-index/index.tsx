@@ -16,7 +16,6 @@ export const AdminIndex = () => {
 
   const init = async () => {
     const [{ error, unauthorized, admins }] = await Promise.all([getAllAdmins(), delay(1000)]);
-
     if (error) return;
 
     if (unauthorized) {

@@ -28,9 +28,10 @@ export const Login = () => {
 
     if (typeof username !== 'string' || typeof password !== 'string') throw err.make('invalid form data');
 
-    const error = await auth.login({ username, password });
+    const { error, unauthorized } = await auth.login({ username, password }) ?? {};
+    if (error) return;
 
-    if (error) {
+    if (unauthorized) {
       alert('Login failed; check your credentials.');
       return;
     }
@@ -46,7 +47,7 @@ export const Login = () => {
         <h2>Login</h2>
         <label>
           Username
-          <input type='text' id='username' name='username' />
+          <input type='text' id='username' name='username' autoFocus />
         </label>
         <label>
           Password

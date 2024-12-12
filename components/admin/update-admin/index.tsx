@@ -17,7 +17,7 @@ type FormErrors = {
 export const UpdateAdmin = () => {
   const nav = useNavigate();
   const { state: admin } = useLocation() as Loc;
-  const [formErrors, setFormErrors] = useState<FormErrors>({});
+  const [formErrors, setFormErrors] = useState<FormErrors | null>(null);
 
   const submitUsername = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,7 +30,7 @@ export const UpdateAdmin = () => {
       return;
     }
 
-    setFormErrors({});
+    setFormErrors(null);
 
     if (typeof username !== 'string') throw err.make('invalid form data');
 
@@ -96,7 +96,7 @@ export const UpdateAdmin = () => {
         <label>
           Username
           <input type='text' name='username' defaultValue={admin.username} />
-          <p className="error">{formErrors.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
+          <p className="error">{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
         </label>
         <button type='submit'>Update admin username</button>
       </form>
@@ -104,12 +104,12 @@ export const UpdateAdmin = () => {
         <label>
           Password
           <input type='password' name='password' />
-          <p className="error">{formErrors.passwordRequired ? 'Password chech is required' : <>&nbsp;</>}</p>
+          <p className="error">{formErrors?.passwordRequired ? 'Password chech is required' : <>&nbsp;</>}</p>
         </label>
         <label>
           Verify password
           <input type='password' name='password-check' />
-          <p className="error">{formErrors.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
+          <p className="error">{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
         </label>
         <button type='submit'>Update admin password</button>
       </form>
