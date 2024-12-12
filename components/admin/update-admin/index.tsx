@@ -10,8 +10,7 @@ type Loc = { state: { id: number, username: string } };
 type FormErrors = {
   usernameRequired?: boolean,
   passwordRequired?: boolean,
-  passwordCheckRequired?: boolean,
-  passwordMismatch?: boolean
+  passwordCheckRequired?: boolean
 };
 
 export const UpdateAdmin = () => {

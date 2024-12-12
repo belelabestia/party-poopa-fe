@@ -32,7 +32,7 @@ export const createAdmin = async (body: CreateBody) => {
   try {
     const { error, unauthorized, response } = await fetch('/be/admin', 'POST', body);
 
-    if (unauthorized) return { unauthenticated: true };
+    if (unauthorized) return { unauthorized: true };
 
     if (error) {
       console.log('create admin request failed');

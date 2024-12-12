@@ -1,11 +1,18 @@
 import * as err from 'modules/error';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { createAdmin } from 'api/admin';
 import './styles.css';
 
+type FormErrors = {
+  usernameRequired?: boolean,
+  passwordRequired?: boolean,
+  passwordCheckRequired?: boolean
+};
+
 export const CreateAdmin = () => {
   const nav = useNavigate();
+  const [formErrors, setFormErrors] = useState<FormErrors | null>(null);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -16,9 +23,11 @@ export const CreateAdmin = () => {
     const passwordCheck = data.get('password-check');
 
     if (!username || !password || !passwordCheck) {
-      alert('Credentials are required.');
+      setFormErrors({ usernameRequired: !username, passwordRequired: !password, passwordCheckRequired: !passwordCheck });
       return;
     }
+
+    setFormErrors(null);
 
     if (
       typeof username !== 'string' ||
@@ -31,11 +40,15 @@ export const CreateAdmin = () => {
       return;
     }
 
-    const { error } = await createAdmin({ username, password });
+    const { error, unauthorized } = await createAdmin({ username, password });
     if (error) return;
 
-    console.log('navigating to login');
-    nav('/login');
+    if (unauthorized) {
+      alert('Session has expired, redirecting to login.');
+      console.log('navigating to login');
+      nav('/login');
+      return;
+    }
   };
 
   return (
@@ -45,14 +58,17 @@ export const CreateAdmin = () => {
         <label>
           Username
           <input type='text' name='username' />
+          <p className="error">{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
         </label>
         <label>
           Password
           <input type='password' name='password' />
+          <p className="error">{formErrors?.passwordRequired ? 'Password chech is required' : <>&nbsp;</>}</p>
         </label>
         <label>
           Verify password
           <input type='password' name='password-check' />
+          <p className="error">{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
         </label>
         <button type='submit'>Create admin</button>
       </form>

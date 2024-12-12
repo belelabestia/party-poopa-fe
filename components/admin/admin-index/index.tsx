@@ -28,12 +28,19 @@ export const AdminIndex = () => {
     setAdmins(admins);
   };
 
+  const createAdmin = () => nav('/admin/new');
+
   useEffect(() => { init() }, []);
 
   return (
     <div className="admin-index">
       {admins
-        ? admins.map(a => <DisplayAdmin {...a} key={a.id}></DisplayAdmin>)
+        ? (
+          <>
+            <button type='button' onClick={createAdmin}>Create admin</button>
+            {admins.map(a => <DisplayAdmin {...a} key={a.id}></DisplayAdmin>)}
+          </>
+        )
         : <Loading />}
     </div>
   );

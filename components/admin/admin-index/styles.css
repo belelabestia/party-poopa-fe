@@ -7,6 +7,13 @@
   gap: 1rem;
 }
 
+.admin-index {
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
 .display-admin {
   padding: 1rem;
   border-radius: .5rem;
@@ -15,10 +22,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  max-width: 40rem;
-  margin: 0 auto;
-  flex-shrink: 0;
 }
 
 .display-admin .username {
