@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: box-shadow .1s ease, font-weight .1s ease;
+  transition: box-shadow .1s ease, font-weight .1s ease, transform .1s ease;
   overflow: hidden;
 }
 
@@ -82,4 +82,9 @@ button {
 button:active {
   box-shadow: none;
   font-weight: 400;
+}
+
+button:active .icon {
+  display: block;
+  transform: scale(.8);
 }
