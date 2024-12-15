@@ -88,6 +88,11 @@ export const UpdateAdmin = () => {
     nav('/login');
   };
 
+  const logout = async () => {
+    await auth.logout();
+    nav('/login');
+  };
+
   return (
     <div className='update-admin'>
       <h2>Update admin</h2>
