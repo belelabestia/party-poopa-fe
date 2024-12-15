@@ -58,17 +58,17 @@ export const CreateAdmin = () => {
         <label>
           Username
           <input type='text' name='username' />
-          <p className="error">{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
+          <p className='error'>{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
         </label>
         <label>
           Password
           <input type='password' name='password' />
-          <p className="error">{formErrors?.passwordRequired ? 'Password chech is required' : <>&nbsp;</>}</p>
+          <p className='error'>{formErrors?.passwordRequired ? 'Password chech is required' : <>&nbsp;</>}</p>
         </label>
         <label>
           Verify password
           <input type='password' name='password-check' />
-          <p className="error">{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
+          <p className='error'>{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
         </label>
         <button type='submit'>Create admin</button>
       </form>

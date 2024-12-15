@@ -2,7 +2,7 @@ import { getAllAdmins } from 'api/admin';
 import { Loading } from 'components/loading';
 import { delay } from 'modules/time';
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import './styles.css';
 import { AppContext } from 'components/app';
 
@@ -15,7 +15,7 @@ export const Admins = () => {
   const [state, setState] = useState<State | null>(null);
 
   const init = async () => {
-    const [{ error, unauthorized, admins }] = await Promise.all([getAllAdmins(), delay(1000)]);
+    const [{ error, unauthorized, admins }] = await Promise.all([getAllAdmins(), delay(300)]);
     if (error) return;
 
     if (unauthorized) {
@@ -34,41 +34,28 @@ export const Admins = () => {
   useEffect(() => { init() }, []);
 
   return (
-    <div className="admins">
+    <div className='admins'>
+      <header>
+        <h2>Admins</h2>
+      </header>
       {state
         ? (
-          <>
-            <div className="me">
-              <DisplayAdmin {...state.me} key={state.me.id} />
+          <nav>
+            <div className='me'>
+              <h3>Me</h3>
+              <NavLink to={`/admin/${state.me.id}`} state={state.me}>{state.me.username}</NavLink>
             </div>
-            <div className="admins">
-              {state.others.map(a => <DisplayAdmin {...a} key={a.id} />)}
+            <div className='others'>
+              <h3>Others</h3>
+              {state.others.map(a => <NavLink to={`/admin/${a.id}`} key={a.id} state={a}>{a.username}</NavLink>)}
             </div>
             <button type='button' onClick={createAdmin}>Create admin</button>
-          </>
+          </nav>
         )
         : <Loading />}
-    </div>
-  );
-};
-
-const DisplayAdmin = (admin: Admin) => {
-  const nav = useNavigate();
-
-  const editAdmin = () => nav(`/admin/${admin.id}`, { state: admin });
-  const deleteAdmin = () => { };
-
-  return (
-    <div className='display-admin'>
-      <span className='username'>{admin.username}</span>
-      <div className='actions'>
-        <button type='button' onClick={editAdmin}>
-          <span className="icon">✏️</span>
-        </button>
-        <button type='button' onClick={deleteAdmin}>
-          <span className="icon">🗑️</span>
-        </button>
-      </div>
+      <footer>
+        <NavLink to='/home'>Home</NavLink>
+      </footer>
     </div>
   );
 };

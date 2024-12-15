@@ -36,7 +36,7 @@ export const Login = () => {
       return;
     }
 
-    nav('/admin');
+    nav('/home');
   };
 
   useEffect(init, []);

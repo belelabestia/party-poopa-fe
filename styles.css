@@ -15,7 +15,6 @@ html, button, input {
 }
 
 html, body, #root {
-  margin: 0;
   height: 100%;
   background-color: #e0ddff;
 }
@@ -26,6 +25,17 @@ html {
 
 body {
   min-width: 320px;
+}
+
+h2 {
+  border-bottom: 2px solid #4c0e72;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
 }
 
 form {

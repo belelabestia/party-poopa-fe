@@ -1,9 +1,10 @@
 import * as err from 'modules/error';
 import * as auth from 'api/auth';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { updateAdminPassword, updateAdminUsername } from 'api/admin';
+import { deleteAdmin, updateAdminPassword, updateAdminUsername } from 'api/admin';
 import './styles.css';
+import { AppContext } from 'components/app';
 
 type Loc = { state: { id: number, username: string } };
 
@@ -15,6 +16,7 @@ type FormErrors = {
 
 export const UpdateAdmin = () => {
   const nav = useNavigate();
+  const app = useContext(AppContext);
   const { state: admin } = useLocation() as Loc;
   const [formErrors, setFormErrors] = useState<FormErrors | null>(null);
 
@@ -93,14 +95,17 @@ export const UpdateAdmin = () => {
     nav('/login');
   };
 
+  const $delete = () => deleteAdmin(admin.id);
+
   return (
     <div className='update-admin'>
       <h2>Update admin</h2>
+      {admin.username === app.username && <button type='button' onClick={logout}>Logout</button>}
       <form onSubmit={submitUsername}>
         <label>
           Username
           <input type='text' name='username' defaultValue={admin.username} />
-          <p className="error">{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
+          <p className='error'>{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
         </label>
         <button type='submit'>Update admin username</button>
       </form>
@@ -108,15 +113,16 @@ export const UpdateAdmin = () => {
         <label>
           Password
           <input type='password' name='password' />
-          <p className="error">{formErrors?.passwordRequired ? 'Password chech is required' : <>&nbsp;</>}</p>
+          <p className='error'>{formErrors?.passwordRequired ? 'Password chech is required' : <>&nbsp;</>}</p>
         </label>
         <label>
           Verify password
           <input type='password' name='password-check' />
-          <p className="error">{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
+          <p className='error'>{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
         </label>
         <button type='submit'>Update admin password</button>
       </form>
+      <button type='button' onClick={$delete}>Delete</button>
     </div>
   );
 };

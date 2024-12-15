@@ -1,35 +1,55 @@
 .admins {
-  padding: 1rem;
   height: 100%;
   overflow: auto;
+}
+
+.admins header {
+  position: sticky;
+  top: 0;
+  padding: 1rem;
+  padding-bottom: 0;
+  background-color: #e0ddff;
+}
+
+.admins nav {
+  width: 100%;
+  max-width: 40rem;
+  margin: auto;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: .5rem;
 }
 
-.admins > * {
-  width: 100%;
-  max-width: 40rem;
-  margin: 0 auto;
-}
-
-.display-admin {
-  padding: .5rem 1rem;
-  border-radius: .5rem;
-  background-color: #f8ffa2;
-  box-shadow: 0 0 .25rem 0 #4c0e72;
+.admins :where(.me, .others) {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.display-admin .username {
-  font-weight: bold;
-  font-size: 1.25rem;
-}
-
-.display-admin .actions {
-  display: flex;
+  flex-direction: column;
   gap: .5rem;
+}
+
+.admins a {
+  text-align: center;
+  padding: .5rem;
+  border-radius: .25rem;
+  font-weight: 600;
+  background-color: #4c0e72;
+  color: #eefffe;
+}
+
+.admins footer {
+  position: sticky;
+  bottom: 0;
+  padding: 1rem;
+  padding-top: 0;
+  background-color: #e0ddff;
+  display: flex;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

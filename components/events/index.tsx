@@ -1,10 +1,10 @@
-import { NavLink } from "react-router";
+import { NavLink } from 'react-router';
 
 export const Events = () => {
 
 
   return (
-    <div className="events">
+    <div className='events'>
       <h2>Events</h2>
       <nav>
         <NavLink to='/home'>Home</NavLink>
