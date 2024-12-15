@@ -43,6 +43,10 @@ export const Login = () => {
 
   return (
     <div className='login'>
+      <header>
+        <div className="logo">🎉🚫💩</div>
+        <h1>Party Poopa</h1>
+      </header>
       <form onSubmit={submit}>
         <h2>Login</h2>
         <label>

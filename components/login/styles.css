@@ -1,16 +1,32 @@
 .login {
   height: 100%;
-  align-content: center;
   padding: 1rem;
   overflow: auto;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.login header {
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login .logo {
+  background-color: #4c0e72;
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  align-content: center;
+  margin: auto;
 }
 
 .login form {
-  width: clamp(12rem, 100%, 16rem);
-  padding: 1rem;
+  width: 100%;
+  max-width: 20rem;
   border-radius: .5rem;
-  background-color: #f8ffa2;
-  box-shadow: 0 0 .1rem 0 #4c0e72;
   margin: auto;
 }
 
