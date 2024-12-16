@@ -16,18 +16,13 @@
 .admins header div {
   border-bottom: 2px solid #4c0e72;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: .5rem;
 }
 
 .admins header nav {
   display: flex;
-}
-
-.admins h2 {
-  display: flex;
   align-items: center;
-  gap: .25rem;
 }
 
 .admins main {
@@ -38,7 +33,7 @@
   width: 100%;
   max-width: 40rem;
   margin: auto;
-  padding: 1rem;
+  padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
   gap: .5rem;
@@ -56,7 +51,10 @@
   padding: 1rem;
   padding-top: 0;
   background-color: #e0ddff;
-  display: flex;
+}
+
+.admins footer div {
+  border-top: 2px solid #4c0e72;
 }
 
 @keyframes fade-in {

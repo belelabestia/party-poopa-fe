@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: box-shadow .1s ease, font-weight .1s ease, transform .1s ease;
+  transition: font-weight .1s ease;
 }
 
 html, button, input {
@@ -27,6 +27,10 @@ a {
   color: inherit;
   cursor: pointer;
   outline: none;
+}
+
+img {
+  display: block;
 }
 
 form {

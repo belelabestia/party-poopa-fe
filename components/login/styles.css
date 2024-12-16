@@ -38,4 +38,13 @@
 
 .login button {
   margin-top: .75rem;
+  padding: .5rem;
+  border: 2px solid #4c0e72;
+  border-radius: .5rem;
+  text-align: center;
+  transition: background-color .1s ease;
+}
+
+.login button:active {
+  background-color: #e3ceff;
 }
