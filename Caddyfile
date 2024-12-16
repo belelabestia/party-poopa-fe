@@ -1,0 +1,15 @@
+{
+  servers {
+    trusted_proxies static private_ranges
+  }
+}
+
+http://party-poopa.belelabestia.it {
+  root * /app
+  file_server
+
+  route {
+    try_files {path} /index.html
+    header /index.html Cache-Control "public, max-age=0, must-revalidate"
+  }
+}
