@@ -3,7 +3,6 @@
   padding: 0;
   box-sizing: border-box;
   transition: box-shadow .1s ease, font-weight .1s ease, transform .1s ease;
-  overflow: hidden;
 }
 
 html, button, input {
@@ -21,10 +20,6 @@ html, body, #root {
 
 html {
   overflow: auto;
-}
-
-h2 {
-  border-bottom: 2px solid #4c0e72;
 }
 
 a {
@@ -71,26 +66,14 @@ input:focus {
 }
 
 button {
+  all: unset;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
   border: none;
-  border-radius: .5rem;
-  padding: .5rem;
-  background-color: #4c0e72;
-  box-shadow: 0 0 .1rem #9d55cb;
-  font-weight: 600;
-  color: #eefffe;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
   cursor: pointer;
-  flex-shrink: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-button:active {
-  box-shadow: none;
-  font-weight: 400;
-}
-
-button:active .icon {
-  display: block;
-  transform: scale(.8);
 }

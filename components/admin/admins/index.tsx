@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import './styles.css';
 import { AppContext } from 'components/app';
+import { Icon } from 'components/icon';
 
 type Admin = { id: number; username: string; };
 type State = { me: Admin, others: Admin[] };
@@ -36,25 +37,35 @@ export const Admins = () => {
   return (
     <div className='admins'>
       <header>
-        <h2>Admins</h2>
-      </header>
-      {state
-        ? (
+        <div>
           <nav>
-            <div className='me'>
-              <h3>Me</h3>
-              <NavLink to={`/admin/${state.me.id}`} state={state.me}>{state.me.username}</NavLink>
-            </div>
-            <div className='others'>
-              <h3>Others</h3>
-              {state.others.map(a => <NavLink to={`/admin/${a.id}`} key={a.id} state={a}>{a.username}</NavLink>)}
-            </div>
-            <button type='button' onClick={createAdmin}>Create admin</button>
+            <NavLink to='/home'>
+              <Icon name='home' />
+            </NavLink>
+            <Icon name='right' />
+            <Icon name='admins' />
           </nav>
-        )
-        : <Loading />}
+          <h2>Admins</h2>
+        </div>
+      </header>
+      <main>
+        {state
+          ? (
+            <nav>
+              <div className='me'>
+                <h3>Me</h3>
+                <NavLink to={`/admin/${state.me.id}`} state={state.me}>{state.me.username}</NavLink>
+              </div>
+              <div className='others'>
+                <h3>Others</h3>
+                {state.others.map(a => <NavLink to={`/admin/${a.id}`} key={a.id} state={a}>{a.username}</NavLink>)}
+              </div>
+            </nav>
+          )
+          : <Loading />}
+      </main>
       <footer>
-        <NavLink to='/home'>Home</NavLink>
+        <button type='button' onClick={createAdmin}>Create admin</button>
       </footer>
     </div>
   );

@@ -1,17 +1,40 @@
 .admins {
   height: 100%;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .admins header {
-  position: sticky;
-  top: 0;
   padding: 1rem;
   padding-bottom: 0;
+  position: sticky;
+  top: 0;
   background-color: #e0ddff;
 }
 
-.admins nav {
+.admins header div {
+  border-bottom: 2px solid #4c0e72;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.admins header nav {
+  display: flex;
+}
+
+.admins h2 {
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+}
+
+.admins main {
+  flex: 1 0 auto;
+}
+
+.admins main nav {
   width: 100%;
   max-width: 40rem;
   margin: auto;
@@ -25,15 +48,6 @@
   display: flex;
   flex-direction: column;
   gap: .5rem;
-}
-
-.admins a {
-  text-align: center;
-  padding: .5rem;
-  border-radius: .25rem;
-  font-weight: 600;
-  background-color: #4c0e72;
-  color: #eefffe;
 }
 
 .admins footer {

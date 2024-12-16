@@ -1,10 +1,16 @@
 import { NavLink } from 'react-router';
 import './styles.css';
+import { Icon } from 'components/icon';
 
 export const Home = () => (
   <div className='home'>
     <header>
-      <h2>Home</h2>
+      <div>
+        <nav>
+          <Icon name='home' />
+        </nav>
+        <h2>Home</h2>
+      </div>
     </header>
     <nav>
       <NavLink to='/events'>Events</NavLink>
