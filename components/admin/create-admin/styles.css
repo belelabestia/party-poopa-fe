@@ -1,14 +1,52 @@
 .create-admin {
   height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.create-admin header {
   padding: 1rem;
+  padding-bottom: 0;
+  position: sticky;
+  top: 0;
+  background-color: #e0ddff;
+}
+
+.create-admin header div {
+  border-bottom: 2px solid #4c0e72;
+  display: flex;
+  align-items: stretch;
+  gap: .5rem;
+}
+
+.create-admin header nav {
+  display: flex;
+  align-items: center;
+}
+
+.create-admin main {
+  flex: 1 0 auto;
 }
 
 .create-admin form {
-  margin: auto;
-  margin-top: .75rem;
+  width: 100%;
   max-width: 40rem;
+  margin: auto;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
 }
 
-.create-admin button {
-  margin-top: .75rem;
+.create-admin form button {
+  padding: .5rem;
+  border: 2px solid #4c0e72;
+  border-radius: .5rem;
+  text-align: center;
+  transition: background-color .1s ease;
+}
+
+.create-admin button:active {
+  background-color: #e3ceff;
 }

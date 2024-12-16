@@ -1,10 +1,11 @@
 import * as err from 'modules/error';
 import * as auth from 'api/auth';
 import { FormEvent, useContext, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { NavLink, useLocation, useNavigate } from 'react-router';
 import { deleteAdmin, updateAdminPassword, updateAdminUsername } from 'api/admin';
 import './styles.css';
 import { AppContext } from 'components/app';
+import { Icon } from 'components/icon';
 
 type Loc = { state: { id: number, username: string } };
 
@@ -99,30 +100,49 @@ export const UpdateAdmin = () => {
 
   return (
     <div className='update-admin'>
-      <h2>Update admin</h2>
-      {admin.username === app.username && <button type='button' onClick={logout}>Logout</button>}
-      <form onSubmit={submitUsername}>
-        <label>
-          Username
-          <input type='text' name='username' defaultValue={admin.username} />
-          <p className='error'>{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
-        </label>
-        <button type='submit'>Update admin username</button>
-      </form>
-      <form onSubmit={submitPassword}>
-        <label>
-          Password
-          <input type='password' name='password' />
-          <p className='error'>{formErrors?.passwordRequired ? 'Password chech is required' : <>&nbsp;</>}</p>
-        </label>
-        <label>
-          Verify password
-          <input type='password' name='password-check' />
-          <p className='error'>{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
-        </label>
-        <button type='submit'>Update admin password</button>
-      </form>
-      <button type='button' onClick={$delete}>Delete</button>
+      <header>
+        <div>
+          <nav>
+            <NavLink to='/home'>
+              <Icon name='home' />
+            </NavLink>
+            <Icon name='right' />
+            <NavLink to='/admins'>
+              <Icon name='admins' />
+            </NavLink>
+            <Icon name='right' />
+            <Icon name='update' />
+          </nav>
+          <h2>Update admin</h2>
+        </div>
+      </header>
+      <main>
+        <form onSubmit={submitUsername}>
+          <label>
+            Username
+            <input type='text' name='username' defaultValue={admin.username} />
+            <p className='error'>{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
+          </label>
+          <button type='submit'>Update admin username</button>
+        </form>
+        <form onSubmit={submitPassword}>
+          <label>
+            Password
+            <input type='password' name='password' />
+            <p className='error'>{formErrors?.passwordRequired ? 'Password check is required' : <>&nbsp;</>}</p>
+          </label>
+          <label>
+            Verify password
+            <input type='password' name='password-check' />
+            <p className='error'>{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
+          </label>
+          <button type='submit'>Update admin password</button>
+        </form>
+      </main>
+      <footer>
+        {admin.username === app.username && <button type='button' onClick={logout}>Logout</button>}
+        <button type='button' onClick={$delete}>Delete</button>
+      </footer>
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import * as err from 'modules/error';
 import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import { createAdmin } from 'api/admin';
 import './styles.css';
+import { Icon } from 'components/icon';
 
 type FormErrors = {
   usernameRequired?: boolean,
@@ -53,25 +54,42 @@ export const CreateAdmin = () => {
 
   return (
     <div className='create-admin'>
-      <form onSubmit={submit}>
-        <h2>Create admin</h2>
-        <label>
-          Username
-          <input type='text' name='username' />
-          <p className='error'>{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
-        </label>
-        <label>
-          Password
-          <input type='password' name='password' />
-          <p className='error'>{formErrors?.passwordRequired ? 'Password chech is required' : <>&nbsp;</>}</p>
-        </label>
-        <label>
-          Verify password
-          <input type='password' name='password-check' />
-          <p className='error'>{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
-        </label>
-        <button type='submit'>Create admin</button>
-      </form>
+      <header>
+        <div>
+          <nav>
+            <NavLink to='/home'>
+              <Icon name='home' />
+            </NavLink>
+            <Icon name='right' />
+            <NavLink to='/admins'>
+              <Icon name='admins' />
+            </NavLink>
+            <Icon name='right' />
+            <Icon name='create' />
+          </nav>
+          <h2>Create admin</h2>
+        </div>
+      </header>
+      <main>
+        <form onSubmit={submit}>
+          <label>
+            Username
+            <input type='text' name='username' />
+            <p className='error'>{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
+          </label>
+          <label>
+            Password
+            <input type='password' name='password' />
+            <p className='error'>{formErrors?.passwordRequired ? 'Password check is required' : <>&nbsp;</>}</p>
+          </label>
+          <label>
+            Verify password
+            <input type='password' name='password-check' />
+            <p className='error'>{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
+          </label>
+          <button type='submit'>Create admin</button>
+        </form>
+      </main>
     </div>
   );
 };

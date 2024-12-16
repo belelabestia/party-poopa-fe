@@ -1,19 +1,72 @@
 .update-admin {
   height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.update-admin header {
   padding: 1rem;
+  padding-bottom: 0;
+  position: sticky;
+  top: 0;
+  background-color: #e0ddff;
+}
+
+.update-admin header div {
+  border-bottom: 2px solid #4c0e72;
+  display: flex;
+  align-items: stretch;
+  gap: .5rem;
+}
+
+.update-admin header nav {
+  display: flex;
+  align-items: center;
+}
+
+.update-admin main {
+  flex: 1 0 auto;
 }
 
 .update-admin form {
-  margin: auto;
-  margin-top: .75rem;
+  width: 100%;
   max-width: 40rem;
+  margin: auto;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
 }
 
-.update-admin h2 {
-  padding-bottom: .5rem;
-  border-bottom: 2px solid #4c0e72;
+.update-admin form button {
+  padding: .5rem;
+  border: 2px solid #4c0e72;
+  border-radius: .5rem;
+  text-align: center;
+  transition: background-color .1s ease;
 }
 
-.update-admin button {
-  margin-top: .75rem;
+.update-admin footer {
+  position: sticky;
+  bottom: 0;
+  padding: 1rem;
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;;
+}
+
+.update-admin footer button {
+  width: 100%;
+  padding: .5rem;
+  border: 2px solid #4c0e72;
+  border-radius: .5rem;
+  text-align: center;
+  transition: background-color .1s ease;
+  background-color: #e0ddff;
+}
+
+.update-admin button:active {
+  background-color: #e3ceff;
 }

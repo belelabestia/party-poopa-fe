@@ -27,3 +27,7 @@
   flex-direction: column;
   gap: .5rem;
 }
+
+.home > nav a:active {
+  font-weight: 600;
+}
