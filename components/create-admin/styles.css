@@ -51,3 +51,7 @@
 .create-admin button:active {
   background-color: #e3ceff;
 }
+
+.create-admin form .error {
+  animation: fade-in .2s;
+}
