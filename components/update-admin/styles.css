@@ -3,6 +3,7 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
+  animation: fade-in .2s;
 }
 
 .update-admin header {

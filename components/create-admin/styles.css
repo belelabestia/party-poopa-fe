@@ -1,11 +1,12 @@
-.admins {
+.create-admin {
   height: 100%;
   overflow: auto;
   display: flex;
   flex-direction: column;
+  animation: fade-in .2s;
 }
 
-.admins header {
+.create-admin header {
   padding: 1rem;
   padding-bottom: 0;
   position: sticky;
@@ -13,23 +14,23 @@
   background-color: #e0ddff;
 }
 
-.admins header div {
+.create-admin header div {
   border-bottom: 2px solid #4c0e72;
   display: flex;
   align-items: stretch;
   gap: .5rem;
 }
 
-.admins header nav {
+.create-admin header nav {
   display: flex;
   align-items: center;
 }
 
-.admins main {
+.create-admin main {
   flex: 1 0 auto;
 }
 
-.admins main nav {
+.create-admin form {
   width: 100%;
   max-width: 40rem;
   margin: auto;
@@ -37,46 +38,16 @@
   display: flex;
   flex-direction: column;
   gap: .5rem;
-  animation: fade-in ;
 }
 
-.admins main nav a:active {
-  font-weight: 600;
-}
-
-.admins :where(.me, .others) {
-  display: flex;
-  flex-direction: column;
-  gap: .5rem;
-}
-
-.admins footer {
-  position: sticky;
-  bottom: 0;
-  padding: 1rem;
-  padding-top: 0;
-  display: flex;
-}
-
-.admins footer button {
-  width: 100%;
+.create-admin form button {
   padding: .5rem;
   border: 2px solid #4c0e72;
   border-radius: .5rem;
   text-align: center;
   transition: background-color .1s ease;
-  background-color: #e0ddff;
 }
 
-.admins footer button:active {
+.create-admin button:active {
   background-color: #e3ceff;
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }

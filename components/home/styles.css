@@ -1,6 +1,7 @@
 .home {
   height: 100%;
   overflow: auto;
+  animation: fade-in .2s;
 }
 
 .home header {

@@ -1,11 +1,12 @@
-.create-admin {
+.admins {
   height: 100%;
   overflow: auto;
   display: flex;
   flex-direction: column;
+  animation: fade-in .2s;
 }
 
-.create-admin header {
+.admins header {
   padding: 1rem;
   padding-bottom: 0;
   position: sticky;
@@ -13,23 +14,23 @@
   background-color: #e0ddff;
 }
 
-.create-admin header div {
+.admins header div {
   border-bottom: 2px solid #4c0e72;
   display: flex;
   align-items: stretch;
   gap: .5rem;
 }
 
-.create-admin header nav {
+.admins header nav {
   display: flex;
   align-items: center;
 }
 
-.create-admin main {
+.admins main {
   flex: 1 0 auto;
 }
 
-.create-admin form {
+.admins main nav {
   width: 100%;
   max-width: 40rem;
   margin: auto;
@@ -39,14 +40,34 @@
   gap: .5rem;
 }
 
-.create-admin form button {
+.admins main nav a:active {
+  font-weight: 600;
+}
+
+.admins :where(.me, .others) {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.admins footer {
+  position: sticky;
+  bottom: 0;
+  padding: 1rem;
+  padding-top: 0;
+  display: flex;
+}
+
+.admins footer button {
+  width: 100%;
   padding: .5rem;
   border: 2px solid #4c0e72;
   border-radius: .5rem;
   text-align: center;
   transition: background-color .1s ease;
+  background-color: #e0ddff;
 }
 
-.create-admin button:active {
+.admins footer button:active {
   background-color: #e3ceff;
 }
