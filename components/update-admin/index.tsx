@@ -6,6 +6,8 @@ import { deleteAdmin, updateAdminPassword, updateAdminUsername } from 'api/admin
 import './styles.css';
 import { AppContext } from 'components/app';
 import { Icon } from 'components/icon';
+import { Loading } from 'components/loading';
+import { delay } from 'modules/time';
 
 type Loc = { state: { id: number, username: string } };
 
@@ -20,6 +22,7 @@ export const UpdateAdmin = () => {
   const app = useContext(AppContext);
   const { state: admin } = useLocation() as Loc;
   const [formErrors, setFormErrors] = useState<FormErrors | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const submitUsername = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -36,11 +39,20 @@ export const UpdateAdmin = () => {
 
     if (typeof username !== 'string') throw err.make('invalid form data');
 
-    const proceed = confirm('you\'ll have to login with your new username');
+    const me = admin.username === app.username;
+
+    const proceed = !me || confirm('you\'ll have to login with your new username');
     if (!proceed) return;
 
-    const { unauthorized, error } = await updateAdminUsername({ id: admin.id, username }) ?? {};
-    if (error) return;
+    setLoading(true);
+
+    const [{ error, unauthorized } = {}] = await Promise.all([updateAdminUsername({ id: admin.id, username }), delay(300)]);
+
+    if (error) {
+      alert('Network request failed.');
+      setLoading(false);
+      return;
+    }
 
     if (unauthorized) {
       alert('Session has expired, redirecting to login.');
@@ -49,9 +61,15 @@ export const UpdateAdmin = () => {
       return;
     }
 
-    alert('username updated; logging out');
-    await auth.logout();
-    nav('/login');
+    if (me) {
+      alert('Username updated; logging out.');
+      await auth.logout();
+      nav('/login');
+    }
+    else {
+      alert('Updated.');
+      setLoading(false);
+    }
   };
 
   const submitPassword = async (event: FormEvent<HTMLFormElement>) => {
@@ -76,8 +94,20 @@ export const UpdateAdmin = () => {
       return;
     }
 
-    const { error, unauthorized } = await updateAdminPassword({ id: admin.id, password }) ?? {};
-    if (error) return;
+    const me = admin.username === app.username;
+
+    const proceed = !me || confirm('you\'ll have to login with your new password');
+    if (!proceed) return;
+
+    setLoading(true);
+
+    const [{ error, unauthorized } = {}] = await Promise.all([updateAdminPassword({ id: admin.id, password }), delay(300)]);
+
+    if (error) {
+      alert('Network request failed.');
+      setLoading(false);
+      return;
+    }
 
     if (unauthorized) {
       alert('Session has expired, redirecting to login.');
@@ -86,9 +116,15 @@ export const UpdateAdmin = () => {
       return;
     }
 
-    alert('password updated; logging out');
-    await auth.logout();
-    nav('/login');
+    if (me) {
+      alert('password updated; logging out');
+      await auth.logout();
+      nav('/login');
+    }
+    else {
+      alert('Updated.');
+      setLoading(false);
+    }
   };
 
   const logout = async () => {
@@ -96,7 +132,27 @@ export const UpdateAdmin = () => {
     nav('/login');
   };
 
-  const $delete = () => deleteAdmin(admin.id);
+  const $delete = async () => {
+    setLoading(true);
+
+    const { error, unauthorized } = await deleteAdmin(admin.id) ?? {};
+
+    if (error) {
+      alert('Network request failed.');
+      setLoading(false);
+      return;
+    }
+
+    if (unauthorized) {
+      alert('Session has expired, redirecting to login.');
+      console.log('navigating to login');
+      nav('/login');
+      return;
+    }
+
+    alert('Deleted.');
+    nav('/admins');
+  };
 
   return (
     <div className='update-admin'>
@@ -116,33 +172,41 @@ export const UpdateAdmin = () => {
           <h2>Update admin</h2>
         </div>
       </header>
-      <main>
-        <form onSubmit={submitUsername}>
-          <label>
-            Username
-            <input type='text' name='username' defaultValue={admin.username} />
-            <p className='error'>{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
-          </label>
-          <button type='submit'>Update admin username</button>
-        </form>
-        <form onSubmit={submitPassword}>
-          <label>
-            Password
-            <input type='password' name='password' />
-            <p className='error'>{formErrors?.passwordRequired ? 'Password check is required' : <>&nbsp;</>}</p>
-          </label>
-          <label>
-            Verify password
-            <input type='password' name='password-check' />
-            <p className='error'>{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
-          </label>
-          <button type='submit'>Update admin password</button>
-        </form>
-      </main>
-      <footer>
-        {admin.username === app.username && <button type='button' onClick={logout}>Logout</button>}
-        <button type='button' onClick={$delete}>Delete</button>
-      </footer>
+      {loading
+        ? <Loading />
+        : (
+          <>
+            <main>
+              <form onSubmit={submitUsername}>
+                <label>
+                  Username
+                  <input type='text' name='username' defaultValue={admin.username} />
+                  <p className='error'>{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
+                </label>
+                <button type='submit'>Update admin username</button>
+              </form>
+              <form onSubmit={submitPassword}>
+                <label>
+                  Password
+                  <input type='password' name='password' autoComplete='new-password' />
+                  <p className='error'>{formErrors?.passwordRequired ? 'Password check is required' : <>&nbsp;</>}</p>
+                </label>
+                <label>
+                  Verify password
+                  <input type='password' name='password-check' autoComplete='new-password' />
+                  <p className='error'>{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
+                </label>
+                <button type='submit'>Update admin password</button>
+              </form>
+            </main>
+            <footer>
+              <div>
+                {admin.username === app.username && <button type='button' onClick={logout}>Logout</button>}
+                <button type='button' onClick={$delete}>Delete</button>
+              </div>
+            </footer>
+          </>
+        )}
     </div>
   );
 };

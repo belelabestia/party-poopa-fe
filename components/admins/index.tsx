@@ -65,7 +65,9 @@ export const Admins = () => {
           : <Loading />}
       </main>
       <footer>
-        <button type='button' onClick={createAdmin}>Create admin</button>
+        <div>
+          <button type='button' onClick={createAdmin}>Create admin</button>
+        </div>
       </footer>
     </div>
   );

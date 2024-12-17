@@ -93,7 +93,7 @@ export const deleteAdmin = async (id: number) => {
   try {
     const { unauthorized, error } = await fetch(`/be/admin/${id}`, 'DELETE');
 
-    if (unauthorized) return { unauthenticated: true };
+    if (unauthorized) return { unauthorized: true };
 
     if (error) {
       console.log('delete admin request failed');

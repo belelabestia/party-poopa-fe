@@ -10,7 +10,7 @@ export const Login = () => {
   const init = () => {
     if (document.cookie) {
       console.log('user alreagy logged in; navigating to app');
-      nav('/admin');
+      nav('/home');
     }
   };
 
@@ -51,11 +51,11 @@ export const Login = () => {
         <h2>Login</h2>
         <label>
           Username
-          <input type='text' id='username' name='username' autoFocus />
+          <input type='text' id='username' name='username' autoFocus autoComplete='username' />
         </label>
         <label>
           Password
-          <input type='password' id='password' name='password' />
+          <input type='password' id='password' name='password' autoComplete='current-password' />
         </label>
         <button type='submit'>Login</button>
       </form>

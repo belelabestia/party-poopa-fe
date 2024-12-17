@@ -7,7 +7,7 @@
 }
 
 .admins header {
-  padding: 1rem;
+  padding: .5rem;
   padding-bottom: 0;
   position: sticky;
   top: 0;
@@ -34,10 +34,11 @@
   width: 100%;
   max-width: 40rem;
   margin: auto;
-  padding: 1rem 2rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: .5rem;
+  animation: fade-in .2s;
 }
 
 .admins main nav a:active {
@@ -53,9 +54,15 @@
 .admins footer {
   position: sticky;
   bottom: 0;
-  padding: 1rem;
+  padding: .5rem;
   padding-top: 0;
+  background-color: #e0ddff;
+}
+
+.admins footer div {
   display: flex;
+  padding-top: .5rem;
+  border-top: 2px solid #4c0e72;
 }
 
 .admins footer button {
@@ -65,7 +72,6 @@
   border-radius: .5rem;
   text-align: center;
   transition: background-color .1s ease;
-  background-color: #e0ddff;
 }
 
 .admins footer button:active {

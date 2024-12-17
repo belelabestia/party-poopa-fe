@@ -14,10 +14,10 @@ createRoot(document.getElementById('root')!).render(
     <Routes>
       <Route path='/' element={<App />}>
         <Route path='/home' element={<Home />} />
-        <Route path='/events' element={<People />} />
         <Route path='/admins' element={<Admins />} />
         <Route path='/admin/create' element={<CreateAdmin />} />
         <Route path='/admin/:id' element={<UpdateAdmin />} />
+        <Route path='/events' element={<People />} />
       </Route>
       <Route path='/login' element={<Login />} />
     </Routes>
