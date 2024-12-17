@@ -80,3 +80,16 @@ button {
   text-align: inherit;
   cursor: pointer;
 }
+
+@keyframes fade-in {
+  from {
+    transform: scale(.98);
+    filter: blur(2px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    filter: blur(0);
+    opacity: 1;
+  }
+}
