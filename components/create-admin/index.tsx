@@ -14,6 +14,7 @@ type FormErrors = {
 export const CreateAdmin = () => {
   const nav = useNavigate();
   const [formErrors, setFormErrors] = useState<FormErrors | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -41,8 +42,15 @@ export const CreateAdmin = () => {
       return;
     }
 
+    setLoading(true);
+
     const { error, unauthorized } = await createAdmin({ username, password });
-    if (error) return;
+
+    if (error) {
+      alert('Network request failed.');
+      setLoading(false);
+      return;
+    }
 
     if (unauthorized) {
       alert('Session has expired, redirecting to login.');
@@ -50,6 +58,9 @@ export const CreateAdmin = () => {
       nav('/login');
       return;
     }
+
+    alert('Created.');
+    nav('/admins');
   };
 
   return (
@@ -75,17 +86,23 @@ export const CreateAdmin = () => {
           <label>
             Username
             <input type='text' name='username' />
-            <p className='error'>{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
+            {formErrors?.usernameRequired
+              ? <p className='error'>Username is required</p>
+              : <p>&nbsp;</p>}
           </label>
           <label>
             Password
             <input type='password' name='password' />
-            <p className='error'>{formErrors?.passwordRequired ? 'Password check is required' : <>&nbsp;</>}</p>
+            {formErrors?.passwordRequired
+              ? <p className='error'>Password is required</p>
+              : <p>&nbsp;</p>}
           </label>
           <label>
             Verify password
             <input type='password' name='password-check' />
-            <p className='error'>{formErrors?.passwordCheckRequired ? 'Password check is required' : <>&nbsp;</>}</p>
+            {formErrors?.passwordCheckRequired
+              ? <p className='error'>Password check is required</p>
+              : <p>&nbsp;</p>}
           </label>
           <button type='submit'>Create admin</button>
         </form>
