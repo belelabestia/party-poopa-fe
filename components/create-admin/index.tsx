@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from 'react-router';
 import { createAdmin } from 'api/admin';
 import './styles.css';
 import { Icon } from 'components/icon';
+import { Loading } from 'components/loading';
 
 type FormErrors = {
   usernameRequired?: boolean,
@@ -81,32 +82,37 @@ export const CreateAdmin = () => {
           <h2>Create admin</h2>
         </div>
       </header>
-      <main>
-        <form onSubmit={submit}>
-          <label>
-            Username
-            <input type='text' name='username' />
-            {formErrors?.usernameRequired
-              ? <p className='error'>Username is required</p>
-              : <p>&nbsp;</p>}
-          </label>
-          <label>
-            Password
-            <input type='password' name='password' />
-            {formErrors?.passwordRequired
-              ? <p className='error'>Password is required</p>
-              : <p>&nbsp;</p>}
-          </label>
-          <label>
-            Verify password
-            <input type='password' name='password-check' />
-            {formErrors?.passwordCheckRequired
-              ? <p className='error'>Password check is required</p>
-              : <p>&nbsp;</p>}
-          </label>
-          <button type='submit'>Create admin</button>
-        </form>
-      </main>
+      {loading
+        ? <Loading />
+        : (
+          <main>
+            <form onSubmit={submit}>
+              <label>
+                Username
+                <input type='text' name='username' />
+                {formErrors?.usernameRequired
+                  ? <p className='error'>Username is required</p>
+                  : <p>&nbsp;</p>}
+              </label>
+              <label>
+                Password
+                <input type='password' name='password' />
+                {formErrors?.passwordRequired
+                  ? <p className='error'>Password is required</p>
+                  : <p>&nbsp;</p>}
+              </label>
+              <label>
+                Verify password
+                <input type='password' name='password-check' />
+                {formErrors?.passwordCheckRequired
+                  ? <p className='error'>Password check is required</p>
+                  : <p>&nbsp;</p>}
+              </label>
+              <button type='submit'>Create admin</button>
+            </form>
+          </main>
+        )}
+
     </div>
   );
 };
