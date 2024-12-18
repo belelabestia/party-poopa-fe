@@ -21,6 +21,7 @@ export const UpdateAdmin = () => {
   const nav = useNavigate();
   const app = useContext(AppContext);
   const { state: admin } = useLocation() as Loc;
+  const [username, setUsername] = useState(admin.username);
   const [formErrors, setFormErrors] = useState<FormErrors | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -74,6 +75,7 @@ export const UpdateAdmin = () => {
     }
     else {
       alert('Updated.');
+      setUsername(username);
       setLoading(false);
     }
   };
@@ -187,7 +189,7 @@ export const UpdateAdmin = () => {
               <form onSubmit={submitUsername}>
                 <label>
                   Username
-                  <input type='text' name='username' defaultValue={admin.username} />
+                  <input type='text' name='username' defaultValue={username} />
                   <p className='error'>{formErrors?.usernameRequired ? 'Username is required' : <>&nbsp;</>}</p>
                 </label>
                 <button type='submit'>Update admin username</button>
