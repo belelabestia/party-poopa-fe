@@ -141,7 +141,7 @@ export const UpdateAdmin = () => {
   const $delete = async () => {
     setLoading(true);
 
-    const { error, unauthorized } = await deleteAdmin(admin.id) ?? {};
+    const [{ error, unauthorized } = {}] = await Promise.all([deleteAdmin(admin.id), delay(300)]);
 
     if (error) {
       alert('Network request failed.');
