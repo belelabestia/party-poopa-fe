@@ -33,6 +33,7 @@ export const createAdmin = async (body: CreateBody) => {
     const { error, unauthorized, response } = await fetch('/be/admin', 'POST', body);
 
     if (unauthorized) return { unauthorized: true };
+    if (error?.message === 'duplicate username') return { duplicateUsername: true };
 
     if (error) {
       console.log('create admin request failed');
@@ -56,6 +57,7 @@ export const updateAdminUsername = async (body: { id: number, username: string }
     const { unauthorized, error } = await fetch(`/be/admin/${body.id}/username`, 'PUT', body);
 
     if (unauthorized) return { unauthorized: true };
+    if (error?.message === 'duplicate username') return { duplicateUsername: true };
 
     if (error) {
       console.log('update admin username request failed');

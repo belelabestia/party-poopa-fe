@@ -46,7 +46,7 @@ export const UpdateAdmin = () => {
 
     setLoading(true);
 
-    const [{ error, unauthorized } = {}] = await Promise.all([updateAdminUsername({ id: admin.id, username }), delay(300)]);
+    const [{ error, unauthorized, duplicateUsername } = {}] = await Promise.all([updateAdminUsername({ id: admin.id, username }), delay(300)]);
 
     if (error) {
       alert('Network request failed.');
@@ -58,6 +58,12 @@ export const UpdateAdmin = () => {
       alert('Session has expired, redirecting to login.');
       console.log('navigating to login');
       nav('/login');
+      return;
+    }
+
+    if (duplicateUsername) {
+      alert('Duplicate username, try a different one.');
+      setLoading(false);
       return;
     }
 

@@ -22,7 +22,8 @@ export const fetch = async (url: string, method: HttpMethod, body?: Json) => {
 
   if (!response.ok) {
     console.log('request failed', response.statusText);
-    return { error: response.statusText };
+    const error = await response.json() as { message: string };
+    return { error };
   }
 
   return { response };

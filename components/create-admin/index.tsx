@@ -45,7 +45,7 @@ export const CreateAdmin = () => {
 
     setLoading(true);
 
-    const { error, unauthorized } = await createAdmin({ username, password });
+    const { error, unauthorized, duplicateUsername } = await createAdmin({ username, password });
 
     if (error) {
       alert('Network request failed.');
@@ -57,6 +57,12 @@ export const CreateAdmin = () => {
       alert('Session has expired, redirecting to login.');
       console.log('navigating to login');
       nav('/login');
+      return;
+    }
+
+    if (duplicateUsername) {
+      alert('Duplicate username, try a different one.');
+      setLoading(false);
       return;
     }
 
