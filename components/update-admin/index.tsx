@@ -134,7 +134,8 @@ export const UpdateAdmin = () => {
   };
 
   const logout = async () => {
-    await auth.logout();
+    setLoading(true);
+    await Promise.all([auth.logout(), delay(300)]);
     nav('/login');
   };
 
