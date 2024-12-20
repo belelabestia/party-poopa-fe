@@ -24,8 +24,7 @@
 
     "paths": {
       "@/*": ["./features/*"],
-      "$/*": ["./modules/*"],
-      "config": ["./config.ts"]
+      "$/*": ["./modules/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"]
