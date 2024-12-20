@@ -1,13 +1,13 @@
-import * as err from 'modules/error';
-import * as auth from 'api/auth';
+import * as err from '$/error';
+import * as auth from '@/auth/api';
 import { FormEvent, useContext, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router';
-import { deleteAdmin, updateAdminPassword, updateAdminUsername } from 'api/admins';
+import { deleteAdmin, updateAdminPassword, updateAdminUsername } from '@/admins/api';
 import './styles.css';
-import { AppContext } from 'components/app';
-import { Icon } from 'components/icon';
-import { Loading } from 'components/loading';
-import { delay } from 'modules/time';
+import { AppContext } from '../../app';
+import { Icon } from '../../icon';
+import { Loading } from '../../loading';
+import { delay } from '$/time';
 
 type Loc = { state: { id: number, username: string } };
 

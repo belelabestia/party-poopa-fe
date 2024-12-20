@@ -1,4 +1,4 @@
-import * as err from 'modules/error';
+import * as err from '$/error';
 
 export type Admin = { username: string, password: string };
 

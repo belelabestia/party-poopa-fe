@@ -1,5 +1,5 @@
-import * as err from 'modules/error';
-import { fetch } from 'modules/http';
+import * as err from '$/error';
+import { fetch } from '$/http';
 
 export const hello = async () => {
   console.log('saying hello');

@@ -1,5 +1,5 @@
-import * as auth from 'api/auth';
-import * as err from 'modules/error';
+import * as auth from '../api';
+import * as err from '$/error';
 import { FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import './styles.css';

@@ -1,4 +1,4 @@
-import * as date from 'modules/date';
+import * as date from '$/date';
 import { Json } from './json';
 
 type HttpMethod =

@@ -1,51 +1,50 @@
-import * as err from 'modules/error';
-import { fetch } from 'modules/http';
+import * as err from '$/error';
+import { fetch } from '$/http';
 
-type CreateBody = { username: string, password: string };
+type CreateBody = { name: string, date: string }; // todo
 
-export const getAllAdmins = async () => {
-  console.log('calling get all admins endpoint');
+export const getAllEvents = async () => {
+  console.log('calling get all events endpoint');
 
   try {
-    const { error, unauthorized, response } = await fetch('/be/admins', 'GET');
+    const { error, unauthorized, response } = await fetch('/be/events', 'GET');
 
     if (unauthorized) return { unauthorized: true };
 
     if (error) {
-      console.log('get all admins request failed');
-      return { error: err.make('get all admins request failed') };
+      console.log('get all events request failed');
+      return { error: err.make('get all events request failed') };
     }
 
-    const admins = await response!.json() as { id: number, username: string }[];
-    console.log('get all admins request succeeded');
-    return { admins };
+    const events = await response!.json() as { id: number, username: string }[]; // todo
+    console.log('get all events request succeeded');
+    return { events };
   }
   catch (error) {
-    console.error('get all admins request failed', error);
+    console.error('get all events request failed', error);
     return { error: err.coalesce(error) };
   }
 };
 
-export const createAdmin = async (body: CreateBody) => {
-  console.log('calling create admin endpoint');
+export const createEvent = async (body: CreateBody) => {
+  console.log('calling create event endpoint');
 
   try {
-    const { error, unauthorized, response } = await fetch('/be/admin', 'POST', body);
+    const { error, unauthorized, response } = await fetch('/be/event', 'POST', body);
 
     if (unauthorized) return { unauthorized: true };
-    if (error?.message === 'duplicate username') return { duplicateUsername: true };
 
     if (error) {
-      console.log('create admin request failed');
-      return { error: err.make('create admin request failed') };
+      console.log('create event request failed');
+      return { error: err.make('create event request failed') };
     }
 
-    const admin = await response!.json() as { id: number };
-    console.log('create admin request succeeded');
-    return { admin };
+    const event = await response!.json() as { id: number };
+    console.log('create event request succeeded');
+    return { event };
   }
   catch (error) {
-    console.error('create admin request failed', error);
+    console.error('create event request failed', error);
     return { error: err.coalesce(error) };
   }
 };

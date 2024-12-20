@@ -1,10 +1,10 @@
-import * as err from 'modules/error';
+import * as err from '$/error';
 import { FormEvent, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router';
-import { createAdmin } from 'api/admins';
+import { createAdmin } from '../api';
 import './styles.css';
-import { Icon } from 'components/icon';
-import { Loading } from 'components/loading';
+import { Icon } from '../../icon';
+import { Loading } from '../../loading';
 
 type FormErrors = {
   usernameRequired?: boolean,

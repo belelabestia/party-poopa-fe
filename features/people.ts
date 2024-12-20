@@ -1,5 +1,5 @@
-import * as err from 'modules/error';
-import { Json } from 'modules/json';
+import * as err from '$/error';
+import { Json } from '$/json';
 
 type Person = {
   id: number,

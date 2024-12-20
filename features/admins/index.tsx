@@ -1,11 +1,11 @@
-import { getAllAdmins } from 'api/admins';
-import { Loading } from 'components/loading';
-import { delay } from 'modules/time';
+import { getAllAdmins } from './api';
+import { Loading } from '../loading';
+import { delay } from '$/time';
 import { useContext, useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import './styles.css';
-import { AppContext } from 'components/app';
-import { Icon } from 'components/icon';
+import { AppContext } from '../app';
+import { Icon } from '../icon';
 
 type Admin = { id: number; username: string; };
 type State = { me: Admin, others: Admin[] };

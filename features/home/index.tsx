@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router';
 import './styles.css';
-import { Icon } from 'components/icon';
+import { Icon } from '../icon';
 
 export const Home = () => (
   <div className='home'>

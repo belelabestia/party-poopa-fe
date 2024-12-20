@@ -23,9 +23,8 @@
     "noUncheckedSideEffectImports": true,
 
     "paths": {
-      "components/*": ["./components/*"],
-      "modules/*": ["./modules/*"],
-      "api/*": ["./api/*"],
+      "@/*": ["./features/*"],
+      "$/*": ["./modules/*"],
       "config": ["./config.ts"]
     }
   },
