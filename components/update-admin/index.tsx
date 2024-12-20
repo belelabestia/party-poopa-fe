@@ -2,7 +2,7 @@ import * as err from 'modules/error';
 import * as auth from 'api/auth';
 import { FormEvent, useContext, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router';
-import { deleteAdmin, updateAdminPassword, updateAdminUsername } from 'api/admin';
+import { deleteAdmin, updateAdminPassword, updateAdminUsername } from 'api/admins';
 import './styles.css';
 import { AppContext } from 'components/app';
 import { Icon } from 'components/icon';

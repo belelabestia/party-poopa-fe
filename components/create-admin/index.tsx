@@ -1,7 +1,7 @@
 import * as err from 'modules/error';
 import { FormEvent, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router';
-import { createAdmin } from 'api/admin';
+import { createAdmin } from 'api/admins';
 import './styles.css';
 import { Icon } from 'components/icon';
 import { Loading } from 'components/loading';

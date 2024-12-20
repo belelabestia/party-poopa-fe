@@ -1,4 +1,4 @@
-import { getAllAdmins } from 'api/admin';
+import { getAllAdmins } from 'api/admins';
 import { Loading } from 'components/loading';
 import { delay } from 'modules/time';
 import { useContext, useEffect, useState } from 'react';

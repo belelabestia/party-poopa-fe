@@ -7,7 +7,7 @@ export const getAllAdmins = async () => {
   console.log('calling get all admins endpoint');
 
   try {
-    const { error, unauthorized, response } = await fetch('/be/admin', 'GET');
+    const { error, unauthorized, response } = await fetch('/be/admins', 'GET');
 
     if (unauthorized) return { unauthorized: true };
 
