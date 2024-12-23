@@ -1,4 +1,3 @@
-import { getAllAdmins } from '@/admins/api';
 import { Loading } from '../loading';
 import { delay } from '$/time';
 import { useContext, useEffect, useState } from 'react';
@@ -6,9 +5,11 @@ import { NavLink, useNavigate } from 'react-router';
 import './styles.css';
 import { AppContext } from '../app';
 import { Icon } from '../icon';
+import { getAllEvents } from './api';
+import { Date, GreaterThanZero, NonEmpty } from '$/parse';
 
-type Admin = { id: number; username: string; };
-type State = { me: Admin, others: Admin[] };
+type Event = { id: GreaterThanZero, name: NonEmpty, date?: Date };
+type State = { events: Event[] };
 
 export const Events = () => {
   const nav = useNavigate();
@@ -16,8 +17,8 @@ export const Events = () => {
   const [state, setState] = useState<State | null>(null);
 
   const init = async () => {
-    const [{ error, unauthorized, admins }] = await Promise.all([getAllAdmins(), delay(300)]);
-    if (error) return;
+    const [{ error, unauthorized, events }] = await Promise.all([getAllEvents(), delay(300)]);
+    if (error !== undefined) return;
 
     if (unauthorized) {
       alert('Session has expired, redirecting to login.');
@@ -26,16 +27,15 @@ export const Events = () => {
       return;
     }
 
-    const [me, ...others] = admins!.sort(x => x.username === app.username ? -1 : 1);
-    setState({ me, others });
+    setState({ events });
   };
 
-  const createAdmin = () => nav('/admin/create');
+  const createEvet = () => nav('/event/create');
 
   useEffect(() => { init() }, []);
 
   return (
-    <div className='admins'>
+    <div className='events'>
       <header>
         <div>
           <nav>
@@ -43,30 +43,23 @@ export const Events = () => {
               <Icon name='home' />
             </NavLink>
             <Icon name='right' />
-            <Icon name='admins' />
+            <Icon name='events' />
           </nav>
-          <h2>Admins</h2>
+          <h2>Events</h2>
         </div>
       </header>
       <main>
         {state
           ? (
             <nav>
-              <div className='me'>
-                <h3>Me</h3>
-                <NavLink to={`/admin/${state.me.id}`} state={state.me}>{state.me.username}</NavLink>
-              </div>
-              <div className='others'>
-                <h3>Others</h3>
-                {state.others.map(a => <NavLink to={`/admin/${a.id}`} key={a.id} state={a}>{a.username}</NavLink>)}
-              </div>
+              {state.events.map(e => <NavLink to={`/event/${e.id}`} key={e.id} state={e}>{e.name}</NavLink>)}
             </nav>
           )
           : <Loading />}
       </main>
       <footer>
         <div>
-          <button type='button' onClick={createAdmin}>Create admin</button>
+          <button type='button' onClick={createEvet}>Create event</button>
         </div>
       </footer>
     </div>

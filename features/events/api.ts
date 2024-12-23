@@ -1,4 +1,5 @@
 import * as err from '$/error';
+import * as parse from './parse';
 import { fetch } from '$/http';
 
 type CreateBody = { name: string, date: string }; // todo
@@ -9,14 +10,20 @@ export const getAllEvents = async () => {
   try {
     const { error, unauthorized, response } = await fetch('/be/events', 'GET');
 
-    if (unauthorized) return { unauthorized: true };
+    if (unauthorized) return { unauthorized };
 
-    if (error) {
+    if (error !== undefined) {
       console.log('get all events request failed');
       return { error: err.make('get all events request failed') };
     }
 
-    const events = await response!.json() as { id: number, username: string }[]; // todo
+    const { error: parseError, events } = await parse.getAllEventsResponse(response);
+
+    if (parseError !== undefined) {
+      console.error('get all events request failed', parseError);
+      return { error: err.make('get all events request failed') };
+    }
+
     console.log('get all events request succeeded');
     return { events };
   }
@@ -56,9 +63,9 @@ export const updateAdminUsername = async (body: { id: number, username: string }
     const { unauthorized, error } = await fetch(`/be/admin/${body.id}/username`, 'PUT', body);
 
     if (unauthorized) return { unauthorized: true };
-    if (error?.message === 'duplicate username') return { duplicateUsername: true };
+    if (error === 'duplicate username') return { duplicateUsername: true };
 
-    if (error) {
+    if (error !== undefined) {
       console.log('update admin username request failed');
       return { error: err.make('update admin username request failed') };
     }

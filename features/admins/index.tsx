@@ -17,7 +17,7 @@ export const Admins = () => {
 
   const init = async () => {
     const [{ error, unauthorized, admins }] = await Promise.all([getAllAdmins(), delay(300)]);
-    if (error) return;
+    if (error !== undefined) return;
 
     if (unauthorized) {
       alert('Session has expired, redirecting to login.');
@@ -26,7 +26,7 @@ export const Admins = () => {
       return;
     }
 
-    const [me, ...others] = admins!.sort(x => x.username === app.username ? -1 : 1);
+    const [me, ...others] = admins.sort(x => x.username === app.username ? -1 : 1);
     setState({ me, others });
   };
 
