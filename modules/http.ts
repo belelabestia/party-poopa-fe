@@ -1,31 +1,37 @@
-import * as date from '$/date';
+import * as date from './date';
+import * as parse from './parse';
 import { Json } from './json';
 
 type HttpMethod =
-| 'GET'
-| 'POST'
-| 'PUT'
-| 'DELETE';
+  | 'GET'
+  | 'POST'
+  | 'PUT'
+  | 'DELETE';
 
+export const unauthorized = Symbol();
 
 export const fetch = async (url: string, method: HttpMethod, body?: Json) => {
-  const response = await window.fetch(url, {
+  const result = await window.fetch(url, {
     method,
     headers: { 'Content-Type': 'application/json' },
     body: body ? JSON.stringify(body) : undefined
   });
 
-  if (response.status === 401) {
+  if (result.status === 401) {
     console.log('unauthorized; resetting cookies');
     document.cookie = `token=; expires=${date.zero}; path=/`;
-    return { unauthorized: Symbol('unauthorized') };
+    return { unauthorized };
   }
 
-  if (!response.ok) {
-    console.log('request failed', response.statusText);
-    const error = await response.json() as { message: string };
-    return { error: error.message };
+  if (!result.ok) {
+    console.log('request failed', result.statusText);
+    const error = await result.json();
+
+    const message = parse.object({ value: error }).property('message').string().nonEmpty();
+    if (message.value !== undefined) return { error: { status: result.statusText, message: message.value } };
+
+    return { error: result.statusText };
   }
 
-  return { response };
+  return { result };
 };

@@ -1,4 +1,3 @@
-import * as err from '$/error';
 import { FormEvent, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import { createAdmin } from '../api';
@@ -32,11 +31,7 @@ export const CreateAdmin = () => {
 
     setFormErrors(null);
 
-    if (
-      typeof username !== 'string' ||
-      typeof password !== 'string' ||
-      typeof passwordCheck !== 'string'
-    ) throw err.make('invalid form data');
+    // todo parse username & password as strings
 
     if (password !== passwordCheck) {
       alert('Passwords don\'t match.');

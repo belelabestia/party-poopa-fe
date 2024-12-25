@@ -1,34 +1,22 @@
-import * as err from '$/error';
 import * as parse from './parse';
-import { fetch } from '$/http';
+import { fetch, unauthorized } from '$/http';
 
-const duplicateUsername = Symbol('duplicate username');
+const duplicateUsername = Symbol();
 
 export const getAllAdmins = async () => {
-  console.log('calling get all admins endpoint');
-
   try {
-    const { error: fetchError, unauthorized, response } = await fetch('/be/admins', 'GET');
-    if (unauthorized) return { unauthorized };
+    const response = await fetch('/be/admins', 'GET');
+    if (response.unauthorized) return { unauthorized };
+    if (response.error !== undefined) return { error: response.error };
 
-    if (fetchError !== undefined) {
-      console.log('get all admins request failed');
-      return { error: err.make('get all admins request failed') };
-    }
+    const parsed = await parse.getAllAdminsResponse(response.result);
+    if (parsed.error !== undefined) return { error: parsed.error };
 
-    const { error: parseError, admins } = await parse.getAllAdminsResponse(response);
-
-    if (parseError !== undefined) {
-      console.error('get all admins request failed', parseError);
-      return { error: err.make('get all admins request failed') };
-    }
-
-    console.log('get all admins request succeeded');
-    return { admins };
+    return { admins: parsed.admins };
   }
   catch (error) {
     console.error('get all admins request failed', error);
-    return { error: err.coalesce(error) };
+    return { error: String(error) };
   }
 };
 
@@ -38,21 +26,21 @@ export const createAdmin = async (body: CreateAdminBody) => {
   console.log('calling create admin endpoint');
 
   try {
-    const { error: fetchError, unauthorized, response } = await fetch('/be/admin', 'POST', body);
+    const { error: fetchError, unauthorized, result: response } = await fetch('/be/admin', 'POST', body);
 
     if (unauthorized) return { unauthorized };
     if (fetchError === 'duplicate username') return { duplicateUsername };
 
     if (fetchError !== undefined) {
       console.error('create admin request failed', fetchError);
-      return { error: err.make('create admin request failed') };
+      return { error: 'create admin request failed' };
     }
 
     const { error: parseError, id } = await parse.createAdminResponse(response);
     
     if (parseError !== undefined) {
       console.error('create admin request failed', parseError);
-      return { error: err.make('create admin request failed') };
+      return { error: 'create admin request failed' };
     }
 
     console.log('create admin request succeeded');
@@ -60,7 +48,7 @@ export const createAdmin = async (body: CreateAdminBody) => {
   }
   catch (error) {
     console.error('create admin request failed', error);
-    return { error: err.coalesce(error) };
+    return { error: String(error) };
   }
 };
 
@@ -77,12 +65,12 @@ export const updateAdminUsername = async (body: UpdateAdminUsernameBody) => {
 
     if (error !== undefined) {
       console.log('update admin username request failed');
-      return { error: err.make('update admin username request failed') };
+      return { error: 'update admin username request failed' };
     }
   }
   catch (error) {
     console.error('update admin username request failed', error);
-    return { error: err.coalesce(error) };
+    return { error: String(error) };
   }
 };
 
@@ -97,12 +85,12 @@ export const updateAdminPassword = async (body: UpdateAdminPasswordBody) => {
 
     if (error !== undefined) {
       console.log('update admin password request failed');
-      return { error: err.make('update admin password request failed') };
+      return { error: 'update admin password request failed' };
     }
   }
   catch (error) {
     console.error('update admin password request failed', error);
-    return { error: err.coalesce(error) };
+    return { error: String(error) };
   }
 };
 
@@ -115,11 +103,11 @@ export const deleteAdmin = async (id: number) => {
 
     if (error !== undefined) {
       console.log('delete admin request failed');
-      return { error: err.make('delete admin request failed') };
+      return { error: 'delete admin request failed' };
     }
   }
   catch (error) {
     console.error('delete admin request failed', error);
-    return { error: err.coalesce(error) };
+    return { error: String(error) };
   }
 };

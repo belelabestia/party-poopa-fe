@@ -8,7 +8,7 @@ export const getAllEvents = async () => {
   console.log('calling get all events endpoint');
 
   try {
-    const { error, unauthorized, response } = await fetch('/be/events', 'GET');
+    const { error, unauthorized, result: response } = await fetch('/be/events', 'GET');
 
     if (unauthorized) return { unauthorized };
 
@@ -37,7 +37,7 @@ export const createEvent = async (body: CreateBody) => {
   console.log('calling create event endpoint');
 
   try {
-    const { error, unauthorized, response } = await fetch('/be/event', 'POST', body);
+    const { error, unauthorized, result: response } = await fetch('/be/event', 'POST', body);
 
     if (unauthorized) return { unauthorized: true };
 

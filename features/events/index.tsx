@@ -1,9 +1,8 @@
 import { Loading } from '../loading';
 import { delay } from '$/time';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import './styles.css';
-import { AppContext } from '../app';
 import { Icon } from '../icon';
 import { getAllEvents } from './api';
 import { Date, GreaterThanZero, NonEmpty } from '$/parse';
@@ -13,7 +12,6 @@ type State = { events: Event[] };
 
 export const Events = () => {
   const nav = useNavigate();
-  const app = useContext(AppContext);
   const [state, setState] = useState<State | null>(null);
 
   const init = async () => {

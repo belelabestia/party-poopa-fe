@@ -6,7 +6,7 @@ export const hello = async () => {
   console.log('saying hello');
 
   try {
-    const { error, unauthorized, response } = await fetch('/be/hello', 'GET');
+    const { error, unauthorized, result: response } = await fetch('/be/hello', 'GET');
 
     if (unauthorized) {
       console.log('saying hello failed, unauthorized');

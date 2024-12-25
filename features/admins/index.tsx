@@ -17,7 +17,12 @@ export const Admins = () => {
 
   const init = async () => {
     const [{ error, unauthorized, admins }] = await Promise.all([getAllAdmins(), delay(300)]);
-    if (error !== undefined) return;
+
+    if (error !== undefined) {
+      alert('Operation failed, please retry.');
+      console.error('getting all admins failed', error);
+      return;
+    };
 
     if (unauthorized) {
       alert('Session has expired, redirecting to login.');
