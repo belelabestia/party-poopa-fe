@@ -19,7 +19,7 @@ export const hello = async () => {
     }
 
     const answer = parse.string({ value: await response.text() });
-    if (answer.error !== undefined) return { error: err.make('saying hello failed') };
+    if (answer.error) return { error: err.make('saying hello failed') };
 
     console.log('saying hello succeded');
     return { answer: answer.value };

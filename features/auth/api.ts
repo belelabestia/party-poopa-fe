@@ -1,5 +1,3 @@
-import * as err from '$/error';
-
 export type Admin = { username: string, password: string };
 
 export const login = async (data: Admin) => {
@@ -19,12 +17,12 @@ export const login = async (data: Admin) => {
 
     if (!res.ok) {
       console.error('login request failed', res.statusText);
-      return { error: err.make('login request failed') };
+      return { error: 'login request failed' };
     }
   }
   catch (error) {
     console.error('login request failed', error);
-    return { error: err.coalesce(error) };
+    return { error };
   }
 };
 
@@ -45,11 +43,11 @@ export const logout = async () => {
 
     if (!res.ok) {
       console.error('logout request failed', res.statusText);
-      return err.make('logout request failed');
+      return 'logout request failed';
     }
   }
   catch (error) {
     console.error('logout request failed', error);
-    return err.coalesce(error);
+    return error;
   }
 };

@@ -2,7 +2,7 @@ import * as parse from '$/parse';
 
 export const getAllEventsResponse = async (res: Response) => {
   const json = parse.array({ value: await res.json() });
-  if (json.error !== undefined) return { error: json.error };
+  if (json.error) return { error: json.error };
 
   const events = [];
 
@@ -10,20 +10,20 @@ export const getAllEventsResponse = async (res: Response) => {
     const row = json.at(i).object();
 
     const id = row.property('id').number().greaterThanZero();
-    if (id.error !== undefined) return { error: id.error };
+    if (id.error) return { error: id.error };
 
     const name = row.property('name').string().nonEmpty();
-    if (name.error !== undefined) return { error: name.error };
+    if (name.error) return { error: name.error };
 
     const dateProp = row.property('date');
 
-    if (dateProp.error !== undefined) {
+    if (dateProp.error) {
       events.push({ id: id.value, name: name.value });
       continue;
     }
 
     const date = dateProp.string().date();
-    if (date.error !== undefined) return { error: date.error };
+    if (date.error) return { error: date.error };
 
     events.push({ id: id.value, name: name.value, date: date.value });
   }
@@ -33,7 +33,7 @@ export const getAllEventsResponse = async (res: Response) => {
 
 export const createAdminResponse = async (res: Response) => {
   const id = parse.object(await res.json()).property('id').number().greaterThanZero();
-  if (id.error !== undefined) return { error: id.error };
+  if (id.error) return { error: id.error };
 
   return id.value;
 };

@@ -7,10 +7,10 @@ export const getAllAdmins = async () => {
   try {
     const response = await fetch('/be/admins', 'GET');
     if (response.unauthorized) return { unauthorized };
-    if (response.error !== undefined) return { error: response.error };
+    if (response.error) return { error: response.error };
 
     const parsed = await parse.getAllAdminsResponse(response.result);
-    if (parsed.error !== undefined) return { error: parsed.error };
+    if (parsed.error) return { error: parsed.error };
 
     return { admins: parsed.admins };
   }
