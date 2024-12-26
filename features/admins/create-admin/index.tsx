@@ -4,6 +4,7 @@ import { createAdmin } from '../api';
 import './styles.css';
 import { Icon } from '../../icon';
 import { Loading } from '../../loading';
+import * as parse from '$/parse';
 
 type FormErrors = {
   usernameRequired?: boolean,
@@ -20,18 +21,17 @@ export const CreateAdmin = () => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-    const username = data.get('username');
-    const password = data.get('password');
-    const passwordCheck = data.get('password-check');
 
-    if (!username || !password || !passwordCheck) {
-      setFormErrors({ usernameRequired: !username, passwordRequired: !password, passwordCheckRequired: !passwordCheck });
+    const username = parse.string({ value: data.get('username') }).nonEmpty();
+    const password = parse.string({ value: data.get('password') }).nonEmpty();
+    const passwordCheck = parse.string({ value: data.get('password-check') }).nonEmpty();
+
+    if (username.error || password.error || passwordCheck.error) {
+      setFormErrors({ usernameRequired: Boolean(username.error), passwordRequired: Boolean(password.error), passwordCheckRequired: Boolean(passwordCheck.error) });
       return;
     }
 
     setFormErrors(null);
-
-    // todo parse username & password as strings
 
     if (password !== passwordCheck) {
       alert('Passwords don\'t match.');
@@ -40,23 +40,23 @@ export const CreateAdmin = () => {
 
     setLoading(true);
 
-    const { error, unauthorized, duplicateUsername } = await createAdmin({ username, password });
+    const create = await createAdmin({ username: username.value, password: password.value });
 
-    if (error) {
-      alert('Network request failed.');
-      setLoading(false);
-      return;
-    }
-
-    if (unauthorized) {
+    if (create.unauthorized) {
       alert('Session has expired, redirecting to login.');
       console.log('navigating to login');
       nav('/login');
       return;
     }
 
-    if (duplicateUsername) {
+    if (create.duplicateUsername) {
       alert('Duplicate username, try a different one.');
+      setLoading(false);
+      return;
+    }
+
+    if (create.error) {
+      alert('Network request failed.');
       setLoading(false);
       return;
     }
@@ -113,7 +113,6 @@ export const CreateAdmin = () => {
             </form>
           </main>
         )}
-
     </div>
   );
 };
