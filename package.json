@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "vite",
+    "tsc": "tsc",
     "build": "tsc -b && vite build"
   },
   "dependencies": {
