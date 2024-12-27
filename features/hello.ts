@@ -1,31 +1,23 @@
-import * as err from '$/error';
 import * as parse from '$/parse';
-import { fetch } from '$/http';
+import { fetch, unauthorized } from '$/http';
+import { makeFail } from '$/error';
+
+const fail = makeFail('admins api error');
 
 export const hello = async () => {
-  console.log('saying hello');
-
   try {
-    const { error, unauthorized, result: response } = await fetch('/be/hello', 'GET');
+    const response = await fetch('/be/hello', 'GET');
+    if (response.unauthorized) return { unauthorized };
+    if (response.error) return { error: fail(response.error) };
 
-    if (unauthorized) {
-      console.log('saying hello failed, unauthorized');
-      return { error: err.make('saying hello failed, unauthorized') };
-    }
-
-    if (error !== undefined) {
-      console.log('saying hello failed');
-      return { error: err.make('saying hello failed') };
-    }
-
-    const answer = parse.string({ value: await response.text() });
-    if (answer.error) return { error: err.make('saying hello failed') };
+    const parsed = parse.string({ value: await response.result.text() });
+    if (parsed.error) return { error: fail(parsed.error) };
 
     console.log('saying hello succeded');
-    return { answer: answer.value };
+    return { answer: parsed.value };
   }
   catch (error) {
     console.error('saying hello failed', error);
-    return { error: err.coalesce(error) };
+    return { error: fail(error) };
   }
 };

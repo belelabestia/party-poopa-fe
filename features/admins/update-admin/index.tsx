@@ -1,5 +1,3 @@
-import * as err from '$/error';
-import * as auth from '@/auth/api';
 import { FormEvent, useContext, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router';
 import { deleteAdmin, updateAdminPassword, updateAdminUsername } from '@/admins/api';
@@ -8,6 +6,8 @@ import { AppContext } from '../../app';
 import { Icon } from '../../icon';
 import { Loading } from '../../loading';
 import { delay } from '$/time';
+import * as auth from '@/auth/api';
+import * as parse from '$/parse';
 
 type Loc = { state: { id: number, username: string } };
 
@@ -29,16 +29,15 @@ export const UpdateAdmin = () => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-    const username = data.get('username');
+
+    const { value: username } = parse.string({ value: data.get('username') }).nonEmpty();
 
     if (!username) {
-      setFormErrors({ usernameRequired: true });
+      setFormErrors({ usernameRequired: !username });
       return;
     }
 
     setFormErrors(null);
-
-    if (typeof username !== 'string') throw err.make('invalid form data');
 
     const me = admin.username === app.username;
 
@@ -48,12 +47,6 @@ export const UpdateAdmin = () => {
     setLoading(true);
 
     const [{ error, unauthorized, duplicateUsername } = {}] = await Promise.all([updateAdminUsername({ id: admin.id, username }), delay(300)]);
-
-    if (error) {
-      alert('Network request failed.');
-      setLoading(false);
-      return;
-    }
 
     if (unauthorized) {
       alert('Session has expired, redirecting to login.');
@@ -68,34 +61,38 @@ export const UpdateAdmin = () => {
       return;
     }
 
+    if (error) {
+      alert('Network request failed.');
+      setLoading(false);
+      return;
+    }
+
     if (me) {
       alert('Username updated; logging out.');
       await auth.logout();
       nav('/login');
     }
-    else {
-      alert('Updated.');
-      setUsername(username);
-      setLoading(false);
-    }
+
+    alert('Updated.');
+    setUsername(username);
+    setLoading(false);
   };
 
   const submitPassword = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-    const password = data.get('password');
-    const passwordCheck = data.get('password-check');
+    const { value: password } = parse.string({ value: data.get('password') }).nonEmpty();
+    const { value: passwordCheck } = parse.string({ value: data.get('password-check') }).nonEmpty();
 
     if (!password || !passwordCheck) {
-      setFormErrors({ passwordRequired: !password, passwordCheckRequired: !passwordCheck });
+      setFormErrors({
+        passwordRequired: !password,
+        passwordCheckRequired: !passwordCheck
+      });
+
       return;
     }
-
-    if (
-      typeof password !== 'string' ||
-      typeof passwordCheck !== 'string'
-    ) throw err.make('invalid form data');
 
     if (password !== passwordCheck) {
       alert('Passwords don\'t match.');
@@ -111,16 +108,16 @@ export const UpdateAdmin = () => {
 
     const [{ error, unauthorized } = {}] = await Promise.all([updateAdminPassword({ id: admin.id, password }), delay(300)]);
 
-    if (error) {
-      alert('Network request failed.');
-      setLoading(false);
-      return;
-    }
-
     if (unauthorized) {
       alert('Session has expired, redirecting to login.');
       console.log('navigating to login');
       nav('/login');
+      return;
+    }
+
+    if (error) {
+      alert('Network request failed.');
+      setLoading(false);
       return;
     }
 
@@ -129,10 +126,9 @@ export const UpdateAdmin = () => {
       await auth.logout();
       nav('/login');
     }
-    else {
-      alert('Updated.');
-      setLoading(false);
-    }
+
+    alert('Updated.');
+    setLoading(false);
   };
 
   const logout = async () => {
