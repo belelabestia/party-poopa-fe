@@ -16,19 +16,24 @@ export const Events = () => {
 
   const init = async () => {
     const [{ error, unauthorized, events }] = await Promise.all([getAllEvents(), delay(300)]);
-    if (error !== undefined) return;
-
+  
     if (unauthorized) {
       alert('Session has expired, redirecting to login.');
       console.log('navigating to login');
       nav('/login');
       return;
     }
+   
+    if (error) {
+      alert('Operation failed, please retry.');
+      console.error('getting all events failed', error);
+      return;
+    };
 
     setState({ events });
   };
 
-  const createEvet = () => nav('/event/create');
+  const createEvent = () => nav('/event/create');
 
   useEffect(() => { init() }, []);
 
@@ -57,7 +62,7 @@ export const Events = () => {
       </main>
       <footer>
         <div>
-          <button type='button' onClick={createEvet}>Create event</button>
+          <button type='button' onClick={createEvent}>Create event</button>
         </div>
       </footer>
     </div>

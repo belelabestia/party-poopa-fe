@@ -8,6 +8,7 @@ import { UpdateAdmin } from './features/admins/update-admin';
 import { CreateAdmin } from './features/admins/create-admin';
 import { Home } from './features/home';
 import { Events } from './features/events';
+import { CreateEvent } from '@/events/create-event';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/admin/create' element={<CreateAdmin />} />
         <Route path='/admin/:id' element={<UpdateAdmin />} />
         <Route path='/events' element={<Events />} />
+        <Route path='/event/create' element={<CreateEvent />} />
       </Route>
       <Route path='/login' element={<Login />} />
     </Routes>

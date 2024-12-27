@@ -1,115 +1,65 @@
 import * as err from '$/error';
 import * as parse from './parse';
-import { fetch } from '$/http';
+import { fetch, unauthorized } from '$/http';
+import { Date, GreaterThanZero, NonEmpty } from '$/parse';
 
-type CreateBody = { name: string, date: string }; // todo
+
+const fail = err.makeFail('events api error');
 
 export const getAllEvents = async () => {
-  console.log('calling get all events endpoint');
-
   try {
-    const { error, unauthorized, result: response } = await fetch('/be/events', 'GET');
+    const response = await fetch('/be/events', 'GET');
+    if (response.unauthorized) return { unauthorized };
+    if (response.error) return { error: fail(response.error) };
 
-    if (unauthorized) return { unauthorized };
+    const parsed = await parse.getAllEventsResponse(response.result);
+    if (parsed.error) return { error: fail(parsed.error) };
 
-    if (error !== undefined) {
-      console.log('get all events request failed');
-      return { error: err.make('get all events request failed') };
-    }
-
-    const { error: parseError, events } = await parse.getAllEventsResponse(response);
-
-    if (parseError !== undefined) {
-      console.error('get all events request failed', parseError);
-      return { error: err.make('get all events request failed') };
-    }
-
-    console.log('get all events request succeeded');
-    return { events };
+    return { events: parsed.events };
   }
   catch (error) {
-    console.error('get all events request failed', error);
-    return { error: err.coalesce(error) };
+    return { error: fail(error) };
   }
 };
 
-export const createEvent = async (body: CreateBody) => {
-  console.log('calling create event endpoint');
+type CreateEventBody = { name: NonEmpty, date?: Date };
 
+export const createEvent = async (body: CreateEventBody) => {
   try {
-    const { error, unauthorized, result: response } = await fetch('/be/event', 'POST', body);
+    const response = await fetch('/be/event', 'POST', body);
+    if (response.unauthorized) return { unauthorized };
+    if (response.error) return { error: fail(response.error) };
 
-    if (unauthorized) return { unauthorized: true };
+    const parsed = await parse.createEventResponse(response.result);
+    if (parsed.error) return { error: fail(parsed.error) };
 
-    if (error) {
-      console.log('create event request failed');
-      return { error: err.make('create event request failed') };
-    }
-
-    const event = await response!.json() as { id: number };
-    console.log('create event request succeeded');
-    return { event };
+    return { id: parsed.id };
   }
   catch (error) {
-    console.error('create event request failed', error);
-    return { error: err.coalesce(error) };
+    return { error: fail(error) };
   }
 };
 
-export const updateAdminUsername = async (body: { id: number, username: string }) => {
-  console.log('calling update admin username endpoint');
+type UpdateEventBody = { id: GreaterThanZero, name: NonEmpty, date?: Date };
 
+export const updateEvent = async (body: UpdateEventBody) => {
   try {
-    const { unauthorized, error } = await fetch(`/be/admin/${body.id}/username`, 'PUT', body);
-
-    if (unauthorized) return { unauthorized: true };
-    if (error === 'duplicate username') return { duplicateUsername: true };
-
-    if (error !== undefined) {
-      console.log('update admin username request failed');
-      return { error: err.make('update admin username request failed') };
-    }
+    const response = await fetch(`/be/event/${body.id}`, 'PUT', body);
+    if (response.unauthorized) return { unauthorized };
+    if (response.error) return { error: fail(response.error) };
   }
   catch (error) {
-    console.error('update admin username request failed', error);
-    return { error: err.coalesce(error) };
+    return { error: fail(error) };
   }
 };
 
-export const updateAdminPassword = async (body: { id: number, password: string }) => {
-  console.log('calling update admin password endpoint');
-
-  try {
-    const { unauthorized, error } = await fetch(`/be/admin/${body.id}/password`, 'PUT', body);
-
-    if (unauthorized) return { unauthorized: true };
-
-    if (error) {
-      console.log('update admin password request failed');
-      return { error: err.make('update admin password request failed') };
-    }
-  }
-  catch (error) {
-    console.error('update admin password request failed', error);
-    return { error: err.coalesce(error) };
-  }
-};
-
-export const deleteAdmin = async (id: number) => {
-  console.log('calling delete admin endpoint');
-
+export const deleteEvent = async (id: number) => {
   try {
     const { unauthorized, error } = await fetch(`/be/admin/${id}`, 'DELETE');
-
     if (unauthorized) return { unauthorized: true };
-
-    if (error) {
-      console.log('delete admin request failed');
-      return { error: err.make('delete admin request failed') };
-    }
+    if (error) return { error: fail(error) };
   }
   catch (error) {
-    console.error('delete admin request failed', error);
-    return { error: err.coalesce(error) };
+    return { error: fail(error) };
   }
 };

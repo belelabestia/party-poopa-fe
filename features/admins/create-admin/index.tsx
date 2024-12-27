@@ -1,15 +1,15 @@
 import { FormEvent, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import { createAdmin } from '../api';
-import './styles.css';
 import { Icon } from '../../icon';
 import { Loading } from '../../loading';
 import * as parse from '$/parse';
+import './styles.css';
 
 type FormErrors = {
-  usernameRequired?: boolean,
-  passwordRequired?: boolean,
-  passwordCheckRequired?: boolean
+  usernameRequired: boolean,
+  passwordRequired: boolean,
+  passwordCheckRequired: boolean
 };
 
 export const CreateAdmin = () => {
@@ -22,12 +22,17 @@ export const CreateAdmin = () => {
 
     const data = new FormData(event.currentTarget);
 
-    const username = parse.string({ value: data.get('username') }).nonEmpty();
-    const password = parse.string({ value: data.get('password') }).nonEmpty();
-    const passwordCheck = parse.string({ value: data.get('password-check') }).nonEmpty();
+    const { value: username } = parse.string({ value: data.get('username') }).nonEmpty();
+    const { value: password } = parse.string({ value: data.get('password') }).nonEmpty();
+    const { value: passwordCheck } = parse.string({ value: data.get('password-check') }).nonEmpty();
 
-    if (username.error || password.error || passwordCheck.error) {
-      setFormErrors({ usernameRequired: Boolean(username.error), passwordRequired: Boolean(password.error), passwordCheckRequired: Boolean(passwordCheck.error) });
+    if (!username || !password || !passwordCheck) {
+      setFormErrors({
+        usernameRequired: !username,
+        passwordRequired: !password,
+        passwordCheckRequired: !passwordCheck
+      });
+
       return;
     }
 
@@ -40,7 +45,7 @@ export const CreateAdmin = () => {
 
     setLoading(true);
 
-    const create = await createAdmin({ username: username.value, password: password.value });
+    const create = await createAdmin({ username, password });
 
     if (create.unauthorized) {
       alert('Session has expired, redirecting to login.');

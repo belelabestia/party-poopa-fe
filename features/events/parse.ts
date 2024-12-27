@@ -1,8 +1,11 @@
+import { makeFail } from '$/error';
 import * as parse from '$/parse';
+
+const fail = makeFail('events parse error');
 
 export const getAllEventsResponse = async (res: Response) => {
   const json = parse.array({ value: await res.json() });
-  if (json.error) return { error: json.error };
+  if (json.error) return { error: fail(json.error) };
 
   const events = [];
 
@@ -10,10 +13,10 @@ export const getAllEventsResponse = async (res: Response) => {
     const row = json.at(i).object();
 
     const id = row.property('id').number().greaterThanZero();
-    if (id.error) return { error: id.error };
+    if (id.error) return { error: fail(id.error) };
 
     const name = row.property('name').string().nonEmpty();
-    if (name.error) return { error: name.error };
+    if (name.error) return { error: fail(name.error) };
 
     const dateProp = row.property('date');
 
@@ -23,7 +26,7 @@ export const getAllEventsResponse = async (res: Response) => {
     }
 
     const date = dateProp.string().date();
-    if (date.error) return { error: date.error };
+    if (date.error) return { error: fail(date.error) };
 
     events.push({ id: id.value, name: name.value, date: date.value });
   }
@@ -31,9 +34,9 @@ export const getAllEventsResponse = async (res: Response) => {
   return { events };
 };
 
-export const createAdminResponse = async (res: Response) => {
-  const id = parse.object(await res.json()).property('id').number().greaterThanZero();
-  if (id.error) return { error: id.error };
+export const createEventResponse = async (res: Response) => {
+  const id = parse.object({ value: await res.json() }).property('id').number().greaterThanZero();
+  if (id.error) return { error: fail(id.error) };
 
-  return id.value;
+  return { id: id.value };
 };

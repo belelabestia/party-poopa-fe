@@ -2,7 +2,7 @@ import { fetch, unauthorized } from '$/http';
 import { makeFail } from '$/error';
 import * as parse from './parse';
 
-const fail = makeFail('api error');
+const fail = makeFail('admins api error');
 const duplicateUsername = Symbol();
 
 export const getAllAdmins = async () => {
@@ -44,10 +44,10 @@ type UpdateAdminUsernameBody = { id: number, username: string };
 
 export const updateAdminUsername = async (body: UpdateAdminUsernameBody) => {
   try {
-    const response = await fetch(`/be/admin/${body.id}/username`, 'PUT', body);
-    if (response.unauthorized) return { unauthorized };
-    if (response.error?.cause === 'duplicate username') return { duplicateUsername };
-    if (response.error) return { error: fail(response.error) };
+    const { unauthorized, error } = await fetch(`/be/admin/${body.id}/username`, 'PUT', body);
+    if (unauthorized) return { unauthorized };
+    if (error?.cause === 'duplicate username') return { duplicateUsername };
+    if (error) return { error: fail(error) };
   }
   catch (error) {
     return { error: fail(error) };
@@ -68,8 +68,6 @@ export const updateAdminPassword = async (body: UpdateAdminPasswordBody) => {
 };
 
 export const deleteAdmin = async (id: number) => {
-  console.log('calling delete admin endpoint');
-
   try {
     const { error, unauthorized } = await fetch(`/be/admin/${id}`, 'DELETE');
     if (unauthorized) return { unauthorized };
