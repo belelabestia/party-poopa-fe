@@ -1,96 +1,69 @@
-import * as parse from './parse';
 import { fetch, unauthorized } from '$/http';
+import { makeFail } from '$/error';
+import * as parse from './parse';
 
+const fail = makeFail('api error');
 const duplicateUsername = Symbol();
 
 export const getAllAdmins = async () => {
   try {
     const response = await fetch('/be/admins', 'GET');
     if (response.unauthorized) return { unauthorized };
-    if (response.error) return { error: response.error };
+    if (response.error) return { error: fail(response.error) };
 
     const parsed = await parse.getAllAdminsResponse(response.result);
-    if (parsed.error) return { error: parsed.error };
+    if (parsed.error) return { error: fail(parsed.error) };
 
     return { admins: parsed.admins };
   }
   catch (error) {
-    console.error('get all admins request failed', error);
-    return { error: String(error) };
+    return { error: fail(error) };
   }
 };
 
 type CreateAdminBody = { username: string, password: string };
 
 export const createAdmin = async (body: CreateAdminBody) => {
-  console.log('calling create admin endpoint');
-
   try {
-    const { error: fetchError, unauthorized, result: response } = await fetch('/be/admin', 'POST', body);
+    const response = await fetch('/be/admin', 'POST', body);
+    if (response.unauthorized) return { unauthorized };
+    if (response.error?.cause === 'duplicate username') return { duplicateUsername };
+    if (response.error) return { error: fail(response.error) };
 
-    if (unauthorized) return { unauthorized };
-    if (fetchError === 'duplicate username') return { duplicateUsername };
+    const parsed = await parse.createAdminResponse(response.result);
+    if (parsed.error) return { error: fail(parsed.error) };
 
-    if (fetchError !== undefined) {
-      console.error('create admin request failed', fetchError);
-      return { error: 'create admin request failed' };
-    }
-
-    const { error: parseError, id } = await parse.createAdminResponse(response);
-    
-    if (parseError !== undefined) {
-      console.error('create admin request failed', parseError);
-      return { error: 'create admin request failed' };
-    }
-
-    console.log('create admin request succeeded');
-    return { id };
+    return { id: parsed.id };
   }
   catch (error) {
-    console.error('create admin request failed', error);
-    return { error: String(error) };
+    return { error: fail(error) };
   }
 };
 
 type UpdateAdminUsernameBody = { id: number, username: string };
 
 export const updateAdminUsername = async (body: UpdateAdminUsernameBody) => {
-  console.log('calling update admin username endpoint');
-
   try {
-    const { error, unauthorized } = await fetch(`/be/admin/${body.id}/username`, 'PUT', body);
-
-    if (unauthorized) return { unauthorized };
-    if (error === 'duplicate username') return { duplicateUsername };
-
-    if (error !== undefined) {
-      console.log('update admin username request failed');
-      return { error: 'update admin username request failed' };
-    }
+    const response = await fetch(`/be/admin/${body.id}/username`, 'PUT', body);
+    if (response.unauthorized) return { unauthorized };
+    if (response.error?.cause === 'duplicate username') return { duplicateUsername };
+    if (response.error) return { error: fail(response.error) };
   }
   catch (error) {
-    console.error('update admin username request failed', error);
-    return { error: String(error) };
+    return { error: fail(error) };
   }
 };
 
 type UpdateAdminPasswordBody = { id: number, password: string };
 
 export const updateAdminPassword = async (body: UpdateAdminPasswordBody) => {
-  console.log('calling update admin password endpoint');
-
   try {
     const { error, unauthorized } = await fetch(`/be/admin/${body.id}/password`, 'PUT', body);
     if (unauthorized) return { unauthorized };
-
-    if (error !== undefined) {
-      console.log('update admin password request failed');
-      return { error: 'update admin password request failed' };
-    }
+    if (error) return { error: fail(error) };
   }
   catch (error) {
-    console.error('update admin password request failed', error);
-    return { error: String(error) };
+    return { error: fail(error) };
   }
 };
 
@@ -100,14 +73,9 @@ export const deleteAdmin = async (id: number) => {
   try {
     const { error, unauthorized } = await fetch(`/be/admin/${id}`, 'DELETE');
     if (unauthorized) return { unauthorized };
-
-    if (error !== undefined) {
-      console.log('delete admin request failed');
-      return { error: 'delete admin request failed' };
-    }
+    if (error) return { error: fail(error) };
   }
   catch (error) {
-    console.error('delete admin request failed', error);
-    return { error: String(error) };
+    return { error: fail(error) };
   }
 };

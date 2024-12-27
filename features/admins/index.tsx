@@ -6,8 +6,9 @@ import { NavLink, useNavigate } from 'react-router';
 import './styles.css';
 import { AppContext } from '../app';
 import { Icon } from '../icon';
+import { GreaterThanZero, NonEmpty } from '$/parse';
 
-type Admin = { id: number; username: string; };
+type Admin = { id: GreaterThanZero, username: NonEmpty };
 type State = { me: Admin, others: Admin[] };
 
 export const Admins = () => {
@@ -18,18 +19,18 @@ export const Admins = () => {
   const init = async () => {
     const [{ error, unauthorized, admins }] = await Promise.all([getAllAdmins(), delay(300)]);
 
-    if (error !== undefined) {
-      alert('Operation failed, please retry.');
-      console.error('getting all admins failed', error);
-      return;
-    };
-
     if (unauthorized) {
       alert('Session has expired, redirecting to login.');
       console.log('navigating to login');
       nav('/login');
       return;
     }
+
+    if (error) {
+      alert('Operation failed, please retry.');
+      console.error('getting all admins failed', error);
+      return;
+    };
 
     const [me, ...others] = admins.sort(x => x.username === app.username ? -1 : 1);
     setState({ me, others });

@@ -10,6 +10,7 @@ type HttpMethod =
   | 'DELETE';
 
 const fail = makeFail('http error');
+export const unauthorized = Symbol();
 
 export const fetch = async (url: string, method: HttpMethod, body?: Json) => {
   const result = await window.fetch(url, {
@@ -21,7 +22,7 @@ export const fetch = async (url: string, method: HttpMethod, body?: Json) => {
   if (result.status === 401) {
     console.log('unauthorized; resetting cookies');
     document.cookie = `token=; expires=${date.zero}; path=/`;
-    return { unauthorized: Symbol() };
+    return { unauthorized };
   }
 
   if (!result.ok) {

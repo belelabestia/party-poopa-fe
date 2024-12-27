@@ -89,7 +89,7 @@ export type GreaterThanZero = Branded<number, 'greater than zero'>;
 
 export const greaterThanZero = ({ error, value }: ParseResult<number>) => {
   if (error) return { error };
-  if (value < 1) return { error: 'should be greater than zero' };
+  if (value < 1) return { error: fail('should be greater than zero') };
 
   return { value: value as GreaterThanZero };
 };

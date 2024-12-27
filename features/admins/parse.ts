@@ -1,8 +1,11 @@
+import { makeFail } from '$/error';
 import * as parse from '$/parse';
+
+const fail = makeFail('admins parse error');
 
 export const getAllAdminsResponse = async (res: Response) => {
   const json = parse.array({ value: await res.json() });
-  if (json.error) return { error: json.error };
+  if (json.error) return { error: fail(json.error) };
 
   const admins = [];
 
@@ -10,10 +13,10 @@ export const getAllAdminsResponse = async (res: Response) => {
     const row = json.at(i).object();
 
     const id = row.property('id').number().greaterThanZero();
-    if (id.error) return { error: id.error };
+    if (id.error) return { error: fail(id.error) };
 
     const username = row.property('username').string().nonEmpty();
-    if (username.error) return { error: username.error };
+    if (username.error) return { error: fail(username.error) };
 
     admins.push({ id: id.value, username: username.value });
   }
@@ -22,8 +25,8 @@ export const getAllAdminsResponse = async (res: Response) => {
 };
 
 export const createAdminResponse = async (res: Response) => {
-  const id = parse.object(await res.json()).property('id').number().greaterThanZero();
-  if (id.error) return { error: id.error };
+  const id = parse.object({ value: await res.json() }).property('id').number().greaterThanZero();
+  if (id.error) return { error: fail(id.error) };
 
   return { id: id.value };
 };
