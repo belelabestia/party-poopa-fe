@@ -55,7 +55,7 @@ export const Events = () => {
         {state
           ? (
             <nav>
-              {state.events.map(e => <NavLink to={`/event/${e.id}`} key={e.id} state={e}>{e.name}</NavLink>)}
+              {state.events.map(e => <NavLink to={`/event/${e.id}`} key={e.id} state={e}>{e.name}{e.date ? ` - ${e.date}` : ''}</NavLink>)}
             </nav>
           )
           : <Loading />}

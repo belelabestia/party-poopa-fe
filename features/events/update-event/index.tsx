@@ -101,17 +101,17 @@ export const UpdateEvent = () => {
             <form onSubmit={submit}>
               <label>
                 Name
-                <input type='text' name='name' />
+                <input type='text' name='name' defaultValue={event.name} />
                 {formErrors?.nameRequired
                   ? <p className='error'>Name is required</p>
                   : <p>&nbsp;</p>}
               </label>
               <label>
                 Date
-                <input type='date' name='date' />
+                <input type='date' name='date' defaultValue={event.date} />
                 <p>&nbsp;</p>
               </label>
-              <button type='submit'>Create event</button>
+              <button type='submit'>Update event</button>
             </form>
           </main>
             <footer>

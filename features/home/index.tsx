@@ -13,8 +13,8 @@ export const Home = () => (
       </div>
     </header>
     <nav>
-      <NavLink to='/events'>Events</NavLink>
       <NavLink to='/admins'>Admins</NavLink>
+      <NavLink to='/events'>Events</NavLink>
     </nav>
   </div>
 );
