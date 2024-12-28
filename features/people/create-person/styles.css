@@ -1,0 +1,57 @@
+.create-person {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  animation: fade-in .2s;
+}
+
+.create-person header {
+  padding: .5rem;
+  padding-bottom: 0;
+  position: sticky;
+  top: 0;
+  background-color: #e0ddff;
+}
+
+.create-person header div {
+  border-bottom: 2px solid #4c0e72;
+  display: flex;
+  align-items: stretch;
+  gap: .5rem;
+}
+
+.create-person header nav {
+  display: flex;
+  align-items: center;
+}
+
+.create-person main {
+  flex: 1 0 auto;
+}
+
+.create-person form {
+  width: 100%;
+  max-width: 40rem;
+  margin: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.create-person form button {
+  padding: .5rem;
+  border: 2px solid #4c0e72;
+  border-radius: .5rem;
+  text-align: center;
+  transition: background-color .1s ease;
+}
+
+.create-person button:active {
+  background-color: #e3ceff;
+}
+
+.create-person form .error {
+  animation: fade-in .2s;
+}

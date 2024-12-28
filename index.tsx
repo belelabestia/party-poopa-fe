@@ -10,6 +10,9 @@ import { Events } from './features/events';
 import { CreateEvent } from '@/events/create-event';
 import { UpdateEvent } from '@/events/update-event';
 import './styles.css';
+import { People } from '@/people';
+import { CreatePerson } from '@/people/create-person';
+import { UpdatePerson } from '@/people/update-person';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -22,6 +25,9 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/events' element={<Events />} />
         <Route path='/event/create' element={<CreateEvent />} />
         <Route path='/event/:id' element={<UpdateEvent />} />
+        <Route path='/people' element={<People />} />
+        <Route path='/person/create' element={<CreatePerson />} />
+        <Route path='/person/:id' element={<UpdatePerson />} />
       </Route>
       <Route path='/login' element={<Login />} />
     </Routes>

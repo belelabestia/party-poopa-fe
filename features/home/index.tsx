@@ -15,6 +15,7 @@ export const Home = () => (
     <nav>
       <NavLink to='/admins'>Admins</NavLink>
       <NavLink to='/events'>Events</NavLink>
+      <NavLink to='/people'>People</NavLink>
     </nav>
   </div>
 );
