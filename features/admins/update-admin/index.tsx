@@ -9,7 +9,8 @@ import { delay } from '$/time';
 import * as auth from '@/auth/api';
 import * as parse from '$/parse';
 
-type Loc = { state: { id: number, username: string } };
+type Admin = { id: parse.GreaterThanZero, username: parse.NonEmpty };
+type Loc = { state: Admin };
 
 type FormErrors = {
   usernameRequired?: boolean,
@@ -207,7 +208,7 @@ export const UpdateAdmin = () => {
             <footer>
               <div>
                 {admin.username === app.username && <button type='button' onClick={logout}>Logout</button>}
-                <button type='button' onClick={$delete}>Delete</button>
+                <button type='button' onClick={$delete}>Delete admin</button>
               </div>
             </footer>
           </>

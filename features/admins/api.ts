@@ -1,6 +1,7 @@
 import { fetch, unauthorized } from '$/http';
 import { makeFail } from '$/error';
 import * as parse from './parse';
+import { NonEmpty } from '$/parse';
 
 const fail = makeFail('admins api error');
 const duplicateUsername = Symbol();
@@ -21,7 +22,7 @@ export const getAllAdmins = async () => {
   }
 };
 
-type CreateAdminBody = { username: string, password: string };
+type CreateAdminBody = { username: NonEmpty, password: NonEmpty };
 
 export const createAdmin = async (body: CreateAdminBody) => {
   try {

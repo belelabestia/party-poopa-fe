@@ -1,0 +1,78 @@
+.update-event {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  animation: fade-in .2s;
+}
+
+.update-event header {
+  padding: .5rem;
+  padding-bottom: 0;
+  position: sticky;
+  top: 0;
+  background-color: #e0ddff;
+}
+
+.update-event header div {
+  border-bottom: 2px solid #4c0e72;
+  display: flex;
+  align-items: stretch;
+  gap: .5rem;
+}
+
+.update-event header nav {
+  display: flex;
+  align-items: center;
+}
+
+.update-event main {
+  flex: 1 0 auto;
+}
+
+.update-event form {
+  width: 100%;
+  max-width: 40rem;
+  margin: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.update-event form button {
+  padding: .5rem;
+  border: 2px solid #4c0e72;
+  border-radius: .5rem;
+  text-align: center;
+  transition: background-color .1s ease;
+}
+
+.update-event footer {
+  position: sticky;
+  bottom: 0;
+  padding: .5rem;
+  padding-top: 0;
+  background-color: #e0ddff;
+}
+
+.update-event footer div {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;;
+  padding-top: .5rem;
+  border-top: 2px solid #4c0e72;
+}
+
+.update-event footer button {
+  width: 100%;
+  padding: .5rem;
+  border: 2px solid #4c0e72;
+  border-radius: .5rem;
+  text-align: center;
+  transition: background-color .1s ease;
+}
+
+.update-event button:active {
+  background-color: #e3ceff;
+}

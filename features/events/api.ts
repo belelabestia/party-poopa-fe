@@ -3,7 +3,6 @@ import * as parse from './parse';
 import { fetch, unauthorized } from '$/http';
 import { Date, GreaterThanZero, NonEmpty } from '$/parse';
 
-
 const fail = err.makeFail('events api error');
 
 export const getAllEvents = async () => {
@@ -44,9 +43,9 @@ type UpdateEventBody = { id: GreaterThanZero, name: NonEmpty, date?: Date };
 
 export const updateEvent = async (body: UpdateEventBody) => {
   try {
-    const response = await fetch(`/be/event/${body.id}`, 'PUT', body);
-    if (response.unauthorized) return { unauthorized };
-    if (response.error) return { error: fail(response.error) };
+    const { unauthorized, error } = await fetch(`/be/event/${body.id}`, 'PUT', body);
+    if (unauthorized) return { unauthorized };
+    if (error) return { error: fail(error) };
   }
   catch (error) {
     return { error: fail(error) };
@@ -55,8 +54,8 @@ export const updateEvent = async (body: UpdateEventBody) => {
 
 export const deleteEvent = async (id: number) => {
   try {
-    const { unauthorized, error } = await fetch(`/be/admin/${id}`, 'DELETE');
-    if (unauthorized) return { unauthorized: true };
+    const { unauthorized, error } = await fetch(`/be/event/${id}`, 'DELETE');
+    if (unauthorized) return { unauthorized };
     if (error) return { error: fail(error) };
   }
   catch (error) {
